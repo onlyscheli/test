@@ -1,211 +1,312 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>onlyscheli</title>
-  <style>
-    /* Grundlegende Einstellungen */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: #ffffff;
-      color: #000000;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      text-transform: lowercase; /* Erzwingt durchgehend Kleinschreibung */
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-
-    /* Startansicht (100% Bildschirmhöhe) */
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-      position: relative;
-    }
-
-    .emoji {
-      width: 160px;
-      height: 160px;
-      object-fit: contain;
-      margin-bottom: 24px;
-      user-select: none;
-    }
-
-    .title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      letter-spacing: -1px;
-    }
-
-    /* Dezenter Hinweis zum Scrollen */
-    .scroll-hint {
-      position: absolute;
-      bottom: 30px;
-      font-size: 0.85rem;
-      opacity: 0.4;
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-      40% { transform: translateY(-8px); }
-      60% { transform: translateY(-4px); }
-    }
-
-    /* Bereich nach dem Scrollen */
-    .content {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: 80px 20px 40px 20px;
-    }
-
-    .main-navigation {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* Navigation / Menü */
-    nav {
-      margin-bottom: 60px;
-    }
-
-    .menu {
-      list-style: none;
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .menu a {
-      color: #000000;
-      text-decoration: none;
-      font-size: 1.1rem;
-      font-weight: 500;
-      transition: opacity 0.2s ease;
-    }
-
-    .menu a:hover {
-      opacity: 0.5;
-    }
-
-    /* Links / Platzhalter für spätere Seiten */
-    .links-container {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .link-card {
-      display: block;
-      width: 100%;
-      padding: 16px 20px;
-      border: 1px solid #000000;
-      color: #000000;
-      text-decoration: none;
-      text-align: center;
-      font-size: 1rem;
-      border-radius: 8px;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
-
-    .link-card:hover {
-      background-color: #000000;
-      color: #ffffff;
-    }
-
-    /* Footer für Rechtliches */
-    footer {
-      margin-top: 60px;
-      font-size: 0.85rem;
-      text-align: center;
-      opacity: 0.7;
-    }
-
-    footer a {
-      color: #000000;
-      text-decoration: none;
-      margin: 0 8px;
-      transition: opacity 0.2s ease;
-    }
-
-    footer a:hover {
-      opacity: 0.5;
-      text-decoration: underline;
-    }
-
-    /* Responsive Anpassungen für Mobilgeräte */
-    @media (max-width: 600px) {
-      .emoji {
-        width: 130px;
-        height: 130px;
-      }
-
-      .title {
-        font-size: 2rem;
-      }
-
-      .menu {
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeCheck 🌀 AI Roast & Boost</title>
+    <!-- Tailwind CSS für modernes, responsives Design -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Retro Bunter Hintergrund mit schwebenden Kreisen */
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fad0c4 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .retro-bg-circles div {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            animation: float 10s infinite alternate ease-in-out;
+            z-index: 0;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-40px) scale(1.1); }
+        }
+    </style>
 </head>
-<body>
+<body class="py-10 px-4 font-sans text-gray-800 flex flex-col items-center justify-center">
 
-  <!-- 1. Bereich: Nur Emoji & Name -->
-  <section class="hero">
-    <!-- Ersetze '1792328531760.jpg' mit dem echten Pfad deines Emojis -->
-    <img src="1792328531760.jpg" alt="onlyscheli emoji" class="emoji">
-    <h1 class="title">onlyscheli</h1>
-    <div class="scroll-hint">runterscrollen ↓</div>
-  </section>
-
-  <!-- 2. Bereich: Menü & Verlinkungen (erst nach dem Scrollen sichtbar) -->
-  <main class="content">
-    <div class="main-navigation">
-      <nav>
-        <ul class="menu">
-          <li><a href="#about">über mich</a></li>
-          <li><a href="#projects">projekte</a></li>
-          <li><a href="#contact">kontakt</a></li>
-        </ul>
-      </nav>
-
-      <!-- Verlinkungen zu weiteren Seiten -->
-      <div class="links-container">
-        <a href="#" class="link-card">link 1 (demnächst)</a>
-        <a href="#" class="link-card">link 2 (demnächst)</a>
-        <a href="#" class="link-card">social media</a>
-        <a href="impressum.html" class="link-card">impressum</a>
-        <a href="datenschutz.html" class="link-card">datenschutz</a>
-      </div>
+    <!-- Dekorative Retro-Kreise im Hintergrund -->
+    <div class="retro-bg-circles absolute inset-0 pointer-events-none overflow-hidden">
+        <div style="top: 10%; left: 5%; width: 120px; height: 120px; background: rgba(255, 230, 109, 0.4);"></div>
+        <div style="top: 60%; right: 10%; width: 200px; height: 200px; background: rgba(255, 111, 97, 0.3);"></div>
+        <div style="bottom: 5%; left: 15%; width: 160px; height: 160px; background: rgba(132, 250, 176, 0.3);"></div>
     </div>
 
-    <!-- Dezentes Footer-Menü ganz unten -->
-    <footer>
-      <a href="impressum.html">impressum</a> | <a href="datenschutz.html">datenschutz</a>
-    </footer>
-  </main>
+    <!-- Hauptcontainer -->
+    <div class="relative z-10 w-full max-w-lg bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-6 md:p-8 border-4 border-yellow-300">
+        
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <span class="bg-yellow-300 text-yellow-900 text-xs font-bold uppercase px-3 py-1 rounded-full tracking-wide">Retro Vibe Studio</span>
+            <h1 class="text-3xl md:text-4xl font-black text-indigo-900 mt-2">VIBECHECK 🌀</h1>
+            <p class="text-sm text-gray-600 mt-1">Lass dir von der KI deine echten Vibes spiegeln – mit einer Prise Humor.</p>
+        </div>
 
+        <!-- API Key Einstellung (Lokal im Browser gespeichert) -->
+        <div class="mb-5 bg-yellow-50 p-3 rounded-xl border border-yellow-200">
+            <label class="block text-xs font-bold text-yellow-800 mb-1">OpenAI API-Key (wird nur lokal gespeichert):</label>
+            <input type="password" id="apiKey" placeholder="sk-..." class="w-full text-xs p-2 rounded border border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white">
+        </div>
+
+        <!-- Formular -->
+        <form id="vibeForm" class="space-y-5">
+            
+            <!-- 1. Vorname -->
+            <div>
+                <label class="block text-sm font-bold text-indigo-900 mb-1">1. Dein Vorname</label>
+                <input type="text" id="vorname" required placeholder="z.B. Alex" class="w-full px-4 py-2 rounded-xl border-2 border-indigo-100 focus:border-indigo-500 focus:outline-none bg-indigo-50/30">
+            </div>
+
+            <!-- 2. Sternzeichen (Horizonal scrollbare Auswahl) -->
+            <div>
+                <label class="block text-sm font-bold text-indigo-900 mb-1">2. Dein Sternzeichen</label>
+                <div class="flex overflow-x-auto space-x-2 pb-2 scrollbar-thin">
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Widder" class="peer hidden" checked>
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♈ Widder</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Stier" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♉ Stier</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Zwillinge" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♊ Zwillinge</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Krebs" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♋ Krebs</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Löwe" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♌ Löwe</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Jungfrau" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♍ Jungfrau</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Waage" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♎ Waage</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Skorpion" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♏ Skorpion</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Schütze" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♐ Schütze</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Steinbock" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♑ Steinbock</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Wassermann" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♒ Wassermann</div>
+                    </label>
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="sternzeichen" value="Fische" class="peer hidden">
+                        <div class="px-3 py-2 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">♓ Fische</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 3. Tagesverfassung (Schieberegler) -->
+            <div>
+                <label class="block text-sm font-bold text-indigo-900 mb-1">3. Tagesverfassung</label>
+                <input type="range" id="verfassung" min="1" max="5" value="3" class="w-full accent-indigo-600 cursor-pointer">
+                <div class="flex justify-between text-xs text-gray-500 mt-1 font-medium">
+                    <span>✨ Fröhlich wie ein Teletubby</span>
+                    <span>💀 Berühr mich & du stirbst</span>
+                </div>
+                <div id="verfassungText" class="text-center text-xs font-bold text-indigo-600 mt-1">Ausgeglichen im Tunnel</div>
+            </div>
+
+            <!-- 4. Alter / Generation -->
+            <div>
+                <label class="block text-sm font-bold text-indigo-900 mb-1">4. Generation</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="generation" value="Boomer" class="peer hidden">
+                        <div class="p-2.5 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">Baby Boomer</div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="generation" value="Gen X" class="peer hidden">
+                        <div class="p-2.5 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">Generation X</div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="generation" value="Millennial" class="peer hidden" checked>
+                        <div class="p-2.5 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">Millennial (Gen Y)</div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="generation" value="Gen Z" class="peer hidden">
+                        <div class="p-2.5 rounded-xl border-2 border-indigo-100 peer-checked:bg-indigo-600 peer-checked:text-white text-xs font-semibold bg-white text-center">Generation Z</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Absenden Button -->
+            <button type="submit" id="submitBtn" class="w-full py-3.5 bg-gradient-to-r from-pink-500 to-indigo-600 text-white font-bold rounded-2xl shadow-lg hover:opacity-90 transition transform active:scale-95">
+                Vibecheck starten 🚀
+            </button>
+        </form>
+
+        <!-- Ergebnis-Berech (Standardmäßig versteckt) -->
+        <div id="resultContainer" class="hidden mt-6 pt-6 border-t-2 border-gray-100 space-y-4">
+            <h2 class="text-xl font-black text-indigo-900 text-center">Dein Vibe-Report 🔥</h2>
+            
+            <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100 space-y-3">
+                <div>
+                    <h3 class="text-xs font-bold text-indigo-800 uppercase tracking-wide">1. Tatsächliche Vibes (Der Roast)</h3>
+                    <p id="vibeActual" class="text-sm text-gray-700 mt-1 leading-relaxed"></p>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold text-green-700 uppercase tracking-wide">2. Motivierende positive Vibes</h3>
+                    <p id="vibePositive" class="text-sm text-gray-700 mt-1 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- Teilen-Buttons -->
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="copyResult()" class="py-2.5 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
+                    📋 Resultat kopieren
+                </button>
+                <button onclick="shareWhatsApp()" class="py-2.5 px-4 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
+                    💬 WhatsApp
+                </button>
+            </div>
+            
+            <!-- Tool weiterempfehlen -->
+            <button onclick="shareGenerator()" class="w-full py-2.5 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 text-xs font-bold rounded-xl transition shadow-sm">
+                📢 Vibecheck-Generator weiterempfehlen
+            </button>
+        </div>
+
+        <!-- Footer / KI Hinweis -->
+        <div class="text-center mt-6 text-[10px] text-gray-400">
+            Hinweis: Dieser Vibecheck nutzt künstliche Intelligenz für Unterhaltungszwecke.
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logik -->
+    <script>
+        // Live-Anpassung des Schieberegler-Textes
+        const verfassungSlider = document.getElementById('verfassung');
+        const verfassungText = document.getElementById('verfassungText');
+        const labels = [
+            "Fröhlich wie ein Teletubby ✨",
+            "Ganz okay, man lebt noch 🙂",
+            "Neutral / Im Tunnel 😐",
+            "Etwas genervt, lass mich 🙄",
+            "Berühr mich und du stirbst 💀"
+        ];
+
+        verfassungSlider.addEventListener('input', (e) => {
+            verfassungText.textContent = labels[e.target.value - 1];
+        });
+
+        // Formular-Absenden & OpenAI-Anbindung
+        document.getElementById('vibeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const apiKey = document.getElementById('apiKey').value.trim();
+            if(!apiKey) {
+                alert('Bitte gib deinen OpenAI API-Key ein!');
+                return;
+            }
+
+            const vorname = document.getElementById('vorname').value;
+            const sternzeichen = document.querySelector('input[name="sternzeichen"]:checked').value;
+            const verfassungVal = verfassungSlider.value;
+            const generation = document.querySelector('input[name="generation"]:checked').value;
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Analysiere Vibes... 🌀';
+
+            const prompt = `Erstelle einen Vibecheck für ${vorname}. 
+            Sternzeichen: ${sternzeichen}. 
+            Tagesverfassung Stufe (1=Fröhlich, 5=Aggressiv/Genervt): ${verfassungVal} (${labels[verfassungVal-1]}). 
+            Generation: ${generation}.
+            
+            Anforderungen:
+            - Antworte genau in 2 Absätzen.
+            - Absatz 1: Die tatsächlichen Vibes (ein humorvoller, passender Roast basierend auf Laune, Sternzeichen und Generation). Maximal 2 Sätze.
+            - Absatz 2: Motivierende positive Vibes als Kontrast. Maximal 2 Sätze.
+            - Gib nur die beiden Absätze aus, keine Einleitung oder Titel.`;
+
+            try {
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-4o-mini",
+                        messages: [{ role: "user", content: prompt }],
+                        temperature: 0.8
+                    })
+                });
+
+                const data = await response.json();
+                
+                if(data.error) {
+                    throw new Error(data.error.message);
+                }
+
+                const resultText = data.choices[0].message.content.trim();
+                const paragraphs = resultText.split('\n\n').filter(p => p.trim() !== "");
+
+                document.getElementById('vibeActual').textContent = paragraphs[0] || resultText;
+                document.getElementById('vibePositive').textContent = paragraphs[1] || "Kopf hoch, du rockst das!";
+                
+                document.getElementById('resultContainer').classList.remove('hidden');
+                document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                alert('Fehler bei der Anfrage: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Vibecheck starten 🚀';
+            }
+        });
+
+        // Teilen-Funktionen
+        function copyResult() {
+            const actual = document.getElementById('vibeActual').textContent;
+            const positive = document.getElementById('vibePositive').textContent;
+            const text = `Mein Vibecheck 🌀\n\nTatsächliche Vibes:\n${actual}\n\nPositive Vibes:\n${positive}`;
+            navigator.clipboard.writeText(text);
+            alert('Resultat in die Zwischenablage kopiert! 📋');
+        }
+
+        function shareWhatsApp() {
+            const actual = document.getElementById('vibeActual').textContent;
+            const positive = document.getElementById('vibePositive').textContent;
+            const text = encodeURIComponent(`Mein Vibecheck 🌀\n\nTatsächliche Vibes:\n${actual}\n\nPositive Vibes:\n${positive}`);
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        }
+
+        function shareGenerator() {
+            const shareData = {
+                title: 'VibeCheck Generator',
+                text: 'Probier mal diesen coolen Retro Vibecheck aus!',
+                url: window.location.href
+            };
+            if (navigator.share) {
+                navigator.share(shareData).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link zum Generator wurde kopiert!');
+            }
+        }
+    </script>
 </body>
-  </html>
+</html>
