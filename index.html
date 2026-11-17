@@ -1,215 +1,488 @@
-<!DOCTYPE html>  <html lang="de">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>Bier & Speisen Pairing</title>  <style>  
-    body {  
-        font-family: Arial, sans-serif;  
-        background: #f4f1eb;  
-        margin: 0;  
-        padding: 30px 15px;  
-        color: #29251f;  
-    }  
-  
-    .container {  
-        max-width: 650px;  
-        margin: auto;  
-        background: white;  
-        padding: 30px;  
-        border-radius: 16px;  
-        box-shadow: 0 4px 18px rgba(0,0,0,0.08);  
-    }  
-  
-    h1 {  
-        text-align: center;  
-        color: #8b541d;  
-        margin-bottom: 10px;  
-    }  
-  
-    .intro {  
-        text-align: center;  
-        color: #777;  
-        margin-bottom: 30px;  
-    }  
-  
-    label {  
-        display: block;  
-        font-weight: bold;  
-        margin: 20px 0 8px;  
-    }  
-  
-    select {  
-        width: 100%;  
-        padding: 14px;  
-        border: 1px solid #ccc;  
-        border-radius: 8px;  
-        font-size: 16px;  
-        background: white;  
-    }  
-  
-    .result {  
-        margin-top: 30px;  
-        padding: 22px;  
-        background: #fff7e9;  
-        border-left: 5px solid #b87929;  
-        border-radius: 8px;  
-        display: none;  
-    }  
-  
-    .result h2 {  
-        margin-top: 0;  
-        color: #8b541d;  
-        font-size: 20px;  
-    }  
-  
-    .result p {  
-        font-size: 18px;  
-        margin-bottom: 0;  
-        line-height: 1.5;  
-    }  
-  
-    button {  
-        width: 100%;  
-        margin-top: 20px;  
-        padding: 13px;  
-        border: none;  
-        border-radius: 8px;  
-        background: #8b541d;  
-        color: white;  
-        font-size: 16px;  
-        cursor: pointer;  
-    }  
-  
-    button:hover {  
-        background: #663c13;  
-    }  
-</style>  </head>  <body>  <div class="container">  <h1>🍺 Bier & Speisen</h1>  
-<p class="intro">Finde das passende Bier zu deiner Speise oder das passende Gericht zu deinem Bier.</p>  
 
-<label for="bier">🍺 Bierstil auswählen</label>  
-<select id="bier" onchange="sucheNachBier()">  
-    <option value="">Bitte Bier auswählen ...</option>  
-</select>  
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+<title>Bier & Speisen</title>
 
-<label for="speise">🍽️ Speise auswählen</label>  
-<select id="speise" onchange="sucheNachSpeise()">  
-    <option value="">Bitte Speise auswählen ...</option>  
-</select>  
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-<div class="result" id="ergebnis">  
-    <h2 id="titel"></h2>  
-    <p id="inhalt"></p>  
-</div>  
+<style>
+* {
+  box-sizing: border-box;
+}
 
-<button onclick="zuruecksetzen()">Auswahl zurücksetzen</button>
+body {
+  margin: 0;
+  min-height: 100dvh;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, sans-serif;
+  color: #fff5e5;
+  background:
+    radial-gradient(
+      ellipse at top,
+      #49341c,
+      #171310 75%
+    );
+}
 
-</div>  <script>  
-  
-// Gesamte Pairing-Datenbank  
-const pairingDaten = [  
-["Sour Ale","Schweinsmedaillons mit Speck, Bergkäse, Kroketten, Weißweinsauce & Preiselbeeren"],  
-["Hoppy Sour","Seeteufel auf Bratapfel & Jasminreis mit Hopfenblüten"],  
-["Fruited Sour","Rosa Rehrücken mit Mango Salsa"],  
-["Champagnerbier","Pulled Venison Burger (Rehnacken) & Coleslaw"],  
-["IPA (Grassy)","Bacon Beef Tower"],  
-["Hazy IPA / NEIPA","Arayes (fleischgefüllte Pita aus der Levante)"],  
-["Kellerpils","Kellerhund (Bratwürstel im Laugenstangerl mit Senf & Röstzwiebeln)"],  
-["Mixed Fermentation Sour","BBQ-Hähnchen-Sandwich mit Beerenjus"],  
-["Heller Bock","Geschmorte Schweinsschulter mit Honig-Kräuterkruste"],  
-["NEIPA","Raclette Pizza"],  
-["Milk Stout / Sweet Stout","Bananensplit / Schoko-Dessert"],  
-["Sour Milkshake IPA","Rib Eye Pizza sizilianisch"],  
-["Kellerbier / Malzig","Wildstrudelsuppe"],  
-["Champagnerbier","Saltimbocca & Parmesan Wedges"],  
-["Smoked Sour","Smokey Turkey Skewers & Curry Parmesan Wedges"],  
-["Hoppy Lager","Bacon Roll Burger"],  
-["Zwickel Bock","Dry Aged Pork Steak mit Brezelserviettenrolle"],  
-["Zwickelbier mit Urroggen","Picanha Steak mit Grillkartoffeln & Kohlrabi"],  
-["Weizen IPA","Tacos al Pastor mit Ananassalsa"],  
-["Black IPA","Meat Pie Mint & Cheddar"],  
-["Sour Ale","Kirschpflaume Cheesecake"],  
-["Urgetreidebier","Bauernjause (Schinken, Käse, Brot)"],  
-["IPA (Citrus & Stonefruit)","BBQ Turkey Skewers"],  
-["Wiener Lager","Tiroler Knödel mit Schwammerlgulasch"],  
-["IPA","BBQ Pizza mit Smoky Chicken & Red Onions"],  
-["Saison","Coq au Saison (Hähnchen in Saisonsauce)"],  
-["Kellerbier / Zwickl","Züricher Geschnetzeltes mit Spätzle"],  
-["Barley Wine (Fassgelagert)","Japanisches Schweinebauch Ragout auf Sushireis"],  
-["Weißbier / Hefeweizen","Weißwurst im Speckmantel mit süßem Senf"],  
-["Spice Beer / Pumpkin Ale","Gnocchi mit Kürbis & Chilihonig"],  
-["NEIPA","Pulled Chicken Burger"],  
-["Session IPA","Tacos Beef & Sourcream"],  
-["Pale Ale","Wild Smashed Burger"]  
-];  
-  
-// Bierstile und Speisen alphabetisch sortieren  
-const bierstile = [...new Set(pairingDaten.map(p => p[0]))].sort();  
-const speisen = [...new Set(pairingDaten.map(p => p[1]))].sort();  
-  
-const bierSelect = document.getElementById("bier");  
-const speiseSelect = document.getElementById("speise");  
-  
-// Auswahlfelder befüllen  
-bierstile.forEach(bier => {  
-    bierSelect.add(new Option(bier, bier));  
-});  
-  
-speisen.forEach(speise => {  
-    speiseSelect.add(new Option(speise, speise));  
-});  
-  
-// Bier auswählen -> passende Speise anzeigen  
-function sucheNachBier() {  
-    const bier = bierSelect.value;  
-  
-    speiseSelect.value = "";  
-  
-    if (!bier) {  
-        zuruecksetzen();  
-        return;  
-    }  
-  
-    const passende = pairingDaten.filter(p => p[0] === bier);  
-  
-    zeigeErgebnis(  
-        "🍽️ Passende Speise zu " + bier,  
-        passende.map(p => p[1]).join("<br><br>")  
-    );  
-}  
-  
-// Speise auswählen -> passenden Bierstil anzeigen  
-function sucheNachSpeise() {  
-    const speise = speiseSelect.value;  
-  
-    bierSelect.value = "";  
-  
-    if (!speise) {  
-        zuruecksetzen();  
-        return;  
-    }  
-  
-    const passende = pairingDaten.filter(p => p[1] === speise);  
-  
-    zeigeErgebnis(  
-        "🍺 Passender Bierstil zu deiner Speise",  
-        passende.map(p => p[0]).join("<br><br>")  
-    );  
-}  
-  
-// Ergebnis anzeigen  
-function zeigeErgebnis(titel, inhalt) {  
-    document.getElementById("titel").textContent = titel;  
-    document.getElementById("inhalt").innerHTML = inhalt;  
-    document.getElementById("ergebnis").style.display = "block";  
-}  
-  
-// Auswahl zurücksetzen  
-function zuruecksetzen() {  
-    bierSelect.value = "";  
-    speiseSelect.value = "";  
-    document.getElementById("ergebnis").style.display = "none";  
-}  
-  
-</script>  </body>  
-</html>  Passe den Code auf die neue Liste an. Ich möchte ein Bier auswählen und Eine Kategorie dazu. Fleischgerichte, Fisch & Meeresfrüchte oder vegetarische Gerichte. Dann soll es mir das zugewiesene Gericht und das dazugehörige Match anzeigen. Seite kannst du etwas cooler gestalten, es wöre super wen das alles auf euner Handyseite platz hat ohne dass ich scrollen muss.
-Watte wisi finde ich die exceldatei nicht die ich noch anhängen will
+.container {
+  width: 100%;
+  max-width: 440px;
+  padding: 20px;
+  border-radius: 22px;
+  background: #241e19;
+  border: 1px solid #665037;
+  box-shadow: 0 15px 45px #0007;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.tagline {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #e8b968;
+  font-weight: bold;
+}
+
+h1 {
+  margin: 8px 0;
+  font-size: clamp(27px, 5vh, 36px);
+}
+
+.intro {
+  margin: 0;
+  color: #c8b8a4;
+  font-size: 12px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #f1cb89;
+}
+
+select {
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid #7a6040;
+  background: #342a22;
+  color: #fff5e5;
+  font-size: 14px;
+  outline: none;
+}
+
+select:focus {
+  border-color: #efc16d;
+}
+
+.result {
+  min-height: 150px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid #87643a;
+  background:
+    linear-gradient(
+      140deg,
+      #42301e,
+      #29221d
+    );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.placeholder {
+  text-align: center;
+  color: #d1c1aa;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.result-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #eac17d;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.gericht {
+  margin: 0;
+  font-size: clamp(18px, 3vh, 24px);
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.match {
+  margin: 0;
+  color: #e1d0bb;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+button {
+  display: block;
+  margin: 14px auto 0;
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: #eac17d;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.upload {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.upload label {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #d6a65b;
+  color: #20170e;
+  cursor: pointer;
+}
+
+.upload input {
+  display: none;
+}
+
+#status {
+  color: #c9bba9;
+  font-size: 11px;
+  margin: 5px 0 0;
+}
+
+footer {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 10px;
+  color: #9f907d;
+}
+
+@media (max-height: 650px) {
+  body {
+    padding: 5px;
+  }
+
+  .container {
+    padding: 12px;
+  }
+
+  header {
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .field {
+    margin-bottom: 9px;
+  }
+
+  select {
+    height: 40px;
+  }
+
+  .result {
+    min-height: 110px;
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .gericht {
+    font-size: 18px;
+  }
+
+  .match {
+    font-size: 11px;
+  }
+
+  .upload {
+    margin-bottom: 8px;
+  }
+
+  button {
+    margin-top: 5px;
+  }
+
+  footer {
+    display: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+  <header>
+    <div class="tagline">
+      ✦ DEIN FOOD-PAIRING-GUIDE ✦
+    </div>
+
+    <h1>🍺 Bier & Speisen</h1>
+
+    <p class="intro">
+      Entdecke das perfekte Match.
+    </p>
+  </header>
+
+  <div class="upload">
+    <label for="excel">
+      📂 Excel-Liste laden
+    </label>
+
+    <input
+      type="file"
+      id="excel"
+      accept=".xlsx,.xls"
+    >
+
+    <p id="status">
+      Bitte zuerst deine Bierliste laden.
+    </p>
+  </div>
+
+  <div class="field">
+    <label for="bier">
+      🍺 Bierstil auswählen
+    </label>
+
+    <select id="bier">
+      <option value="">
+        Bitte Bier auswählen ...
+      </option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="kategorie">
+      🍽️ Kategorie auswählen
+    </label>
+
+    <select id="kategorie">
+      <option value="">
+        Bitte Kategorie auswählen ...
+      </option>
+
+      <option value="0">
+        🥩 Fleischgerichte
+      </option>
+
+      <option value="1">
+        🐟 Fisch & Meeresfrüchte
+      </option>
+
+      <option value="2">
+        🥬 Vegetarische Gerichte
+      </option>
+    </select>
+  </div>
+
+  <section class="result"
+           id="ergebnis"
+           aria-live="polite">
+
+    <div class="placeholder">
+      Wähle deinen Bierstil und eine
+      Kategorie für dein perfektes
+      Food-Pairing. ✨
+    </div>
+
+  </section>
+
+  <button id="reset">
+    ↺ Auswahl zurücksetzen
+  </button>
+
+  <footer>
+    Mit Liebe zu Bier & gutem Essen 🍻
+  </footer>
+
+</main>
+
+<script>
+let daten = [];
+
+const bier = document.getElementById("bier");
+const kategorie =
+  document.getElementById("kategorie");
+const ergebnis =
+  document.getElementById("ergebnis");
+const status =
+  document.getElementById("status");
+
+function escapeHTML(wert) {
+  return String(wert ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// Excel-Datei einlesen
+document.getElementById("excel")
+  .addEventListener("change", async function(e) {
+
+  const datei = e.target.files[0];
+  if (!datei) return;
+
+  try {
+    const buffer = await datei.arrayBuffer();
+
+    const workbook = XLSX.read(buffer, {
+      type: "array"
+    });
+
+    const sheet =
+      workbook.Sheets[workbook.SheetNames[0]];
+
+    const zeilen = XLSX.utils.sheet_to_json(
+      sheet,
+      {
+        header: 1,
+        defval: ""
+      }
+    );
+
+    daten = zeilen.slice(1)
+      .filter(z => String(z[1] ?? "").trim())
+      .map(z => ({
+        bierstil: String(z[1]).trim(),
+
+        pairings: [
+          {
+            gericht: z[2],
+            match: z[3]
+          },
+          {
+            gericht: z[4],
+            match: z[5]
+          },
+          {
+            gericht: z[6],
+            match: z[7]
+          }
+        ]
+      }));
+
+    bier.innerHTML =
+      '<option value="">Bitte Bier auswählen ...</option>';
+
+    daten.forEach((eintrag, index) => {
+      const option =
+        document.createElement("option");
+
+      option.value = index;
+      option.textContent = eintrag.bierstil;
+
+      bier.appendChild(option);
+    });
+
+    status.textContent =
+      daten.length + " Bierstile geladen ✓";
+
+    zuruecksetzen();
+
+  } catch (fehler) {
+    status.textContent =
+      "Fehler beim Einlesen der Excel-Datei.";
+    console.error(fehler);
+  }
+});
+
+// Ergebnis anzeigen
+function anzeigen() {
+  const bierIndex = bier.value;
+  const katIndex = kategorie.value;
+
+  if (bierIndex === "" || katIndex === "") {
+    ergebnis.innerHTML = `
+      <div class="placeholder">
+        🍻 Wähle einen Bierstil und
+        eine Kategorie aus.
+      </div>
+    `;
+    return;
+  }
+
+  const eintrag = daten[Number(bierIndex)];
+  const pairing =
+    eintrag.pairings[Number(katIndex)];
+
+  if (!pairing || !pairing.gericht) {
+    ergebnis.innerHTML = `
+      <div class="placeholder">
+        Kein Gericht zugeordnet.
+      </div>
+    `;
+    return;
+  }
+
+  ergebnis.innerHTML = `
+    <div class="result-label">
+      ✦ Dein perfektes Pairing
+    </div>
+
+    <h2 class="gericht">
+      ${escapeHTML(pairing.gericht)}
+    </h2>
+
+    <div class="result-label">
+      Warum passt das?
+    </div>
+
+    <p class="match">
+      ${escapeHTML(pairing.match)}
+    </p>
+  `;
+}
+
+// Auswahl zurücksetzen
+function zuruecksetzen() {
+  bier.value = "";
+  kategorie.value = "";
+
+  ergebnis.innerHTML = `
+    <div class="placeholder">
+      🍺 Wähle deinen Bierstil und
+      eine Kategorie, um das passende
+      Gericht zu entdecken.
+    </div>
+  `;
+}
+
+bier.addEventListener("change", anzeigen);
+kategorie.addEventListener("change", anzeigen);
+
+document.getElementById("reset")
+  .addEventListener("click", zuruecksetzen);
+</script>
+
+</body>
+</html>
