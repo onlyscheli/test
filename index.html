@@ -12,113 +12,204 @@
 
 body {
     margin: 0;
+    padding: 10px 12px;
     min-height: 100dvh;
-    padding: 25px 15px;
     font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #63245e, #180d30 70%);
     color: white;
     text-align: center;
+    background: linear-gradient(
+        135deg,
+        #ff1493,
+        #c71585,
+        #8a2be2,
+        #ff69b4
+    );
+    background-size: 300% 300%;
+    animation: backgroundMove 8s ease infinite;
+    overflow-x: hidden;
+}
+
+@keyframes backgroundMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.main {
+    max-width: 500px;
+    margin: auto;
+}
+
+.party {
+    font-size: 30px;
+    margin: 2px 0;
 }
 
 h1 {
-    font-size: clamp(28px, 7vw, 48px);
-    color: #ffd76a;
-    margin: 10px 0;
-    text-shadow: 0 0 25px #ff9e4466;
+    font-size: clamp(25px, 7vw, 42px);
+    line-height: 1.1;
+    margin: 8px 0;
+    color: #fff;
+    text-shadow:
+        0 3px 0 #b50079,
+        0 0 20px #ffb9ec;
+}
+
+.name {
+    display: inline-block;
+    color: #fff45c;
+    font-size: 1.2em;
+    margin-top: 4px;
+    text-shadow:
+        0 3px 0 #ff5c00,
+        0 0 20px #ffdd00;
 }
 
 .subtitle {
-    color: #e9cde9;
-    line-height: 1.6;
+    font-size: 15px;
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+h2 {
+    font-size: 19px;
+    margin: 10px 0 4px;
 }
 
 .wheel-container {
     position: relative;
-    width: min(88vw, 430px);
-    margin: 35px auto 25px;
+    width: min(85vw, 43vh, 390px);
+    width: min(85vw, 43dvh, 390px);
+    margin: 22px auto 18px;
 }
 
 canvas {
     display: block;
     width: 100%;
     height: auto;
-    border: 6px solid #ffd76a;
+    border: 6px solid #fff;
     border-radius: 50%;
-    box-shadow: 0 0 35px #ffcc5555;
-    transition: transform 6s cubic-bezier(0.12, 0.65, 0.08, 1);
+    box-shadow:
+        0 0 0 5px #ff42bf,
+        0 0 20px #fff,
+        0 0 45px #ff9ae8;
+    transition: transform 6s cubic-bezier(
+        0.12, 0.65, 0.08, 1
+    );
 }
 
 .pointer {
     position: absolute;
-    top: -14px;
+    top: -13px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 19px solid transparent;
-    border-right: 19px solid transparent;
-    border-top: 45px solid #ffffff;
-    filter: drop-shadow(0 3px 5px #0008);
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 38px solid #fff600;
+    filter: drop-shadow(0 3px 3px #a30070);
     z-index: 5;
 }
 
 button {
-    border: none;
+    width: min(90%, 350px);
+    border: 3px solid white;
     border-radius: 50px;
-    padding: 18px 38px;
+    padding: 14px 12px;
     font-size: 20px;
     font-weight: bold;
-    color: #392000;
-    background: linear-gradient(135deg, #ffe993, #ffad32);
-    box-shadow: 0 5px 25px #ffb52c55;
+    color: #9c0063;
+    background: linear-gradient(
+        135deg, #fff600, #ffb52c
+    );
+    box-shadow:
+        0 5px 0 #b50079,
+        0 0 25px #ffea0088;
     cursor: pointer;
     touch-action: manipulation;
+    animation: pulse 1.8s infinite;
 }
 
 button:disabled {
-    opacity: 0.6;
-    cursor: default;
+    opacity: 0.8;
+    animation: none;
+    font-size: 16px;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+
+#status {
+    font-size: 14px;
+    min-height: 18px;
+    margin: 12px 0 5px;
 }
 
 #result {
     display: none;
     max-width: 430px;
-    margin: 25px auto;
-    padding: 24px 15px;
-    border: 2px solid #ffd76a;
-    border-radius: 22px;
-    background: #ffffff12;
+    margin: 22px auto;
+    padding: 22px 15px;
+    border: 3px solid white;
+    border-radius: 25px;
+    background: linear-gradient(
+        135deg, #ff9edb, #ff42a1, #ae35ff
+    );
+    box-shadow: 0 0 30px #ffb5ec;
     animation: appear 0.5s ease;
 }
 
 .beer {
-    font-size: 75px;
+    font-size: 85px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 #result h2 {
-    color: #ffd76a;
-    font-size: 30px;
-    margin: 10px 0;
+    color: #fff600;
+    font-size: 38px;
+    margin: 5px 0;
+    text-shadow: 0 3px 0 #e00085;
+}
+
+#result h3 {
+    font-size: 25px;
+    margin: 12px 0;
 }
 
 .voucher {
-    border: 2px dashed #ffd76a;
-    padding: 15px;
+    border: 3px dashed #ff1493;
+    padding: 18px 10px;
     margin-top: 20px;
-    border-radius: 12px;
-    line-height: 1.7;
+    border-radius: 18px;
+    line-height: 1.8;
+    background: #fff0fa;
+    color: #b00070;
+}
+
+.signature {
+    font-size: 27px;
+    font-weight: bold;
+    font-style: italic;
+    color: #fff600;
 }
 
 footer {
-    margin-top: 35px;
-    color: #c8a9d1;
-    font-size: 13px;
-    line-height: 1.7;
+    margin: 22px 0 10px;
+    color: #ffd6f0;
+    font-size: 11px;
+    line-height: 1.6;
 }
 
 .confetti {
     position: fixed;
-    top: -20px;
+    top: -40px;
     pointer-events: none;
     z-index: 100;
     animation: fall linear forwards;
@@ -126,18 +217,47 @@ footer {
 
 @keyframes fall {
     to {
-        transform: translateY(110vh) rotate(900deg);
+        transform: translateY(115vh) rotate(900deg);
     }
 }
 
 @keyframes appear {
     from {
         opacity: 0;
-        transform: scale(0.8);
+        transform: scale(0.7);
     }
     to {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@media (max-height: 650px) {
+    .party {
+        font-size: 23px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+        margin: 5px 0;
+    }
+
+    h2 {
+        font-size: 16px;
+    }
+
+    .wheel-container {
+        margin: 17px auto 13px;
+        width: min(78vw, 40vh, 340px);
+    }
+
+    button {
+        padding: 11px;
+        font-size: 17px;
     }
 }
 </style>
@@ -145,68 +265,85 @@ footer {
 
 <body>
 
-<div style="font-size:45px">🎈🎂🎈</div>
+<div class="main">
 
-<h1>Alles Gute zum Geburtstag,<br>Sini-Mini!</h1>
+    <div class="party">🩷 🎈 🎂 🎈 🩷</div>
 
-<p class="subtitle">
-    Heute ist dein Glückstag! ❤️<br>
-    Scheli hat weder Kosten noch Mühen gescheut,
-    um dir die unglaublichsten Gewinne zu ermöglichen.
-</p>
+    <h1>
+        Alles Gute zum Geburtstag!<br>
+        <span class="name">Sini-Mini</span>
+    </h1>
 
-<h2>✨ Dein Geburtstags-Glücksrad ✨</h2>
-
-<p>Ein Dreh könnte dein Leben verändern!</p>
-
-<div class="wheel-container">
-    <div class="pointer"></div>
-    <canvas id="wheel" width="800" height="800"></canvas>
-</div>
-
-<button id="spinButton" onclick="spin()">
-    🍀 Dreh dein Glück!
-</button>
-
-<p id="status">Traust du dich? 😏</p>
-
-<div id="result">
-
-    <div class="beer">🍺</div>
-
-    <h2>JACKPOT!</h2>
-
-    <h3>Du hast 1 Bier gewonnen!</h3>
-
-    <p>
-        Schade, fast wäre es der BMW geworden.<br>
-        Aber man kann ja nicht alles haben. 😂
+    <p class="subtitle">
+        Heute ist dein Glückstag! 🥳<br>
+        Ein Dreh könnte dein Leben verändern!
     </p>
 
-    <div class="voucher">
-        🎁 <strong>OFFIZIELLER GUTSCHEIN</strong><br><br>
-        Für: <strong>Sini-Mini</strong><br>
-        Gewinn: <strong>1 eiskaltes Bier 🍺</strong><br>
-        Einlösbar bei: <strong>Scheli</strong><br>
-        Gültig: Bis wir Durst haben.
+    <h2>✨ Dein Geburtstags-Glücksrad ✨</h2>
+
+    <div class="wheel-container">
+        <div class="pointer"></div>
+        <canvas id="wheel" width="800" height="800"></canvas>
     </div>
 
-    <p>
-        Alles Liebe zum Geburtstag! ❤️<br>
-        Bleib so, wie du bist!
-    </p>
+    <button id="spinButton" onclick="spin()">
+        🍀 Dreh dein Glück!
+    </button>
 
-    <p>Dein Scheli</p>
+    <p id="status">Traust du dich? 😏</p>
+
+    <div id="result">
+
+        <div class="beer">🍺</div>
+
+        <h2>JACKPOT!</h2>
+
+        <h3>Du hast 1 Bier gewonnen!</h3>
+
+        <p id="joke">
+            Schade, fast wäre es der BMW geworden.<br>
+            Aber man kann ja nicht alles haben. 😂
+        </p>
+
+        <div class="voucher">
+
+            🎀 <strong>OFFIZIELLER GUTSCHEIN</strong> 🎀
+
+            <br><br>
+
+            Für: <strong>Sini-Mini</strong><br>
+
+            Gewinn:<br>
+            <strong style="font-size:25px">
+                1 eiskaltes Bier 🍺
+            </strong>
+
+            <br><br>
+
+            Einlösbar bei: <strong>Scheli</strong><br>
+
+            Gültig: Bis wir Durst haben.
+
+        </div>
+
+        <p>
+            Alles Liebe zum Geburtstag! 🩷<br>
+            Bleib so, wie du bist!
+        </p>
+
+        <p class="signature">Scheli</p>
+
+    </div>
+
+    <footer>
+        © Schelis Geburtstags-Gewinnspiel<br>
+        Der Rechtsweg ist ausgeschlossen. 😉
+    </footer>
 
 </div>
 
-<footer>
-    © Schelis Geburtstags-Gewinnspiel<br>
-    Der Rechtsweg ist ausgeschlossen.<br>
-    Luxusgewinne sind rein dekorativer Natur. 😉
-</footer>
-
 <script>
+
 const prizes = [
     { icon: "🍺", lines: ["1 BIER"] },
     { icon: "🏍️", lines: ["Harley", "Davidson"] },
@@ -219,14 +356,14 @@ const prizes = [
 ];
 
 const colors = [
-    "#d49b23",
-    "#9d326b",
-    "#2859a5",
-    "#168477",
-    "#b44545",
-    "#6741a5",
-    "#247d9e",
-    "#b56730"
+    "#ffb800",
+    "#ff1493",
+    "#00a8ff",
+    "#00c987",
+    "#ff4757",
+    "#a855f7",
+    "#ff65c3",
+    "#ff7800"
 ];
 
 const canvas = document.getElementById("wheel");
@@ -256,8 +393,8 @@ function drawWheel() {
         ctx.fillStyle = colors[i];
         ctx.fill();
 
-        ctx.strokeStyle = "#ffe7a0";
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 5;
         ctx.stroke();
 
         ctx.save();
@@ -267,36 +404,83 @@ function drawWheel() {
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
 
-        ctx.font = "65px Arial";
+        ctx.shadowColor = "#00000066";
+        ctx.shadowBlur = 5;
+
+        ctx.font = "75px Arial";
         ctx.fillText(prize.icon, 0, -290);
 
-        ctx.font = "bold 31px Arial";
+        ctx.font = "bold 35px Arial";
 
         prize.lines.forEach((line, j) => {
-            ctx.fillText(line, 0, -235 + j * 35);
+            ctx.fillText(line, 0, -230 + j * 39);
         });
 
         ctx.restore();
     });
 
-    // Goldene Mitte
+    // Dekorative Punkte am Rand
+
+    for (let i = 0; i < 32; i++) {
+
+        const angle = i * Math.PI * 2 / 32;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            center + Math.cos(angle) * 382,
+            center + Math.sin(angle) * 382,
+            6, 0, Math.PI * 2
+        );
+
+        ctx.fillStyle = i % 2 === 0
+            ? "#ffffff"
+            : "#fff600";
+
+        ctx.fill();
+    }
+
+    // Pinke Mitte
+
     ctx.beginPath();
-    ctx.arc(center, center, 70, 0, Math.PI * 2);
-    ctx.fillStyle = "#ffd76a";
+    ctx.arc(center, center, 76, 0, Math.PI * 2);
+
+    const gradient = ctx.createRadialGradient(
+        center, center, 5,
+        center, center, 76
+    );
+
+    gradient.addColorStop(0, "#ffb6e9");
+    gradient.addColorStop(1, "#ff008c");
+
+    ctx.fillStyle = gradient;
     ctx.fill();
 
-    ctx.strokeStyle = "#fff2c2";
-    ctx.lineWidth = 7;
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 8;
     ctx.stroke();
 
-    ctx.fillStyle = "#392000";
-    ctx.font = "bold 25px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 28px Arial";
     ctx.textAlign = "center";
+
     ctx.fillText("SINI", center, center - 5);
-    ctx.fillText("MINI", center, center + 25);
+    ctx.fillText("MINI", center, center + 27);
 }
 
 drawWheel();
+
+// Anfangs zeigt der Pfeil auf den BMW.
+
+rotation = 270;
+
+canvas.style.transition = "none";
+canvas.style.transform = `rotate(${rotation}deg)`;
+
+canvas.getBoundingClientRect();
+
+canvas.style.transition =
+    "transform 6s cubic-bezier(0.12, 0.65, 0.08, 1)";
 
 function spin() {
 
@@ -308,50 +492,93 @@ function spin() {
     const button = document.getElementById("spinButton");
     const status = document.getElementById("status");
     const result = document.getElementById("result");
+    const joke = document.getElementById("joke");
 
     button.disabled = true;
-    button.innerText = "Das Schicksal entscheidet ...";
+    button.innerText = "✨ Das Schicksal entscheidet ...";
+
     result.style.display = "none";
 
     status.innerText = "Ohhh ... vielleicht wird es der BMW! 👀";
 
-    // Das Rad landet IMMER auf dem Bier.
-    // Die Anzahl der Umdrehungen variiert.
+    // Das Rad landet IMMER exakt auf dem Bier.
+
     const rounds = 5 + Math.floor(Math.random() * 4);
-    const offset = Math.random() * 24 - 12;
 
     rotation = Math.ceil(rotation / 360) * 360
-               + rounds * 360 + offset;
+               + rounds * 360;
 
     canvas.style.transform = `rotate(${rotation}deg)`;
 
     setTimeout(() => {
-        status.innerText = "Das wird spannend ... 😱";
-    }, 3000);
+
+        status.innerText = "Oh mein Gott, wie spannend! 😱";
+
+    }, 2500);
+
+    setTimeout(() => {
+
+        status.innerText = "Sini-Mini, mach dich bereit! 🤩";
+
+    }, 4500);
 
     setTimeout(() => {
 
         spinning = false;
         button.disabled = false;
+
         button.innerText = "🔄 Nochmal versuchen";
 
         result.style.display = "block";
 
         if (attempts === 1) {
+
             status.innerText = "Herzlichen Glückwunsch! 🎉";
+
+            joke.innerHTML =
+                "Schade, fast wäre es der BMW geworden.<br>" +
+                "Aber man kann ja nicht alles haben. 😂";
+
         } else if (attempts === 2) {
-            status.innerText = "Schon wieder Bier? So ein Zufall! 😂";
+
+            status.innerText = "Schon wieder Bier? 😂";
+
+            joke.innerHTML =
+                "Was für ein unglaublicher Zufall!<br>" +
+                "Schon wieder ein Bier!";
+
         } else if (attempts === 3) {
-            status.innerText = "Sini-Mini, der BMW wird's nicht. 😂";
+
+            status.innerText = "Das gibt's doch nicht! 🤣";
+
+            joke.innerHTML =
+                "Sini-Mini, vergiss die Harley.<br>" +
+                "Du bist offenbar fürs Bier bestimmt.";
+
+        } else if (attempts === 4) {
+
+            status.innerText = "Du gibst wohl nicht auf? 😏";
+
+            joke.innerHTML =
+                "Die Malediven müssen leider warten.<br>" +
+                "Bier ist auch Urlaub. Für die Seele.";
+
         } else {
+
             status.innerText = "Akzeptiere dein Schicksal. 🍺";
+
+            joke.innerHTML =
+                "Du kannst noch 100 Mal drehen.<br>" +
+                "Scheli kauft dir trotzdem keinen BMW. 😂<br><br>" +
+                "Und nein, die Biere werden nicht addiert!";
+
         }
 
         confetti();
 
         result.scrollIntoView({
             behavior: "smooth",
-            block: "nearest"
+            block: "start"
         });
 
     }, 6200);
@@ -359,26 +586,38 @@ function spin() {
 
 function confetti() {
 
-    const emojis = ["🎉", "✨", "🍺", "🎊", "❤️", "⭐"];
+    const emojis = [
+        "🎉", "✨", "🍺", "🎊",
+        "🩷", "💖", "⭐", "🌸",
+        "💗", "🥳", "🎀"
+    ];
 
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 100; i++) {
 
         const piece = document.createElement("div");
 
         piece.className = "confetti";
+
         piece.innerText =
             emojis[Math.floor(Math.random() * emojis.length)];
 
         piece.style.left = Math.random() * 100 + "vw";
-        piece.style.fontSize = 12 + Math.random() * 20 + "px";
-        piece.style.animationDuration = 2 + Math.random() * 3 + "s";
-        piece.style.animationDelay = Math.random() * 1.5 + "s";
+
+        piece.style.fontSize =
+            12 + Math.random() * 25 + "px";
+
+        piece.style.animationDuration =
+            2 + Math.random() * 3 + "s";
+
+        piece.style.animationDelay =
+            Math.random() * 1.5 + "s";
 
         document.body.appendChild(piece);
 
         setTimeout(() => piece.remove(), 7000);
     }
 }
+
 </script>
 
 </body>
