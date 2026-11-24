@@ -1,275 +1,385 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sini-Minis Geburtstags-Glücksrad</title>
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2187109190409697"
-    crossorigin="anonymous"></script>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-  <title>onlyscheli</title>
+body {
+    margin: 0;
+    min-height: 100dvh;
+    padding: 25px 15px;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #63245e, #180d30 70%);
+    color: white;
+    text-align: center;
+}
 
-  <!-- favicon -->
-  <link rel="icon" type="image/jpeg" href="./1792328531760.jpg">
+h1 {
+    font-size: clamp(28px, 7vw, 48px);
+    color: #ffd76a;
+    margin: 10px 0;
+    text-shadow: 0 0 25px #ff9e4466;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+.subtitle {
+    color: #e9cde9;
+    line-height: 1.6;
+}
+
+.wheel-container {
+    position: relative;
+    width: min(88vw, 430px);
+    margin: 35px auto 25px;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 6px solid #ffd76a;
+    border-radius: 50%;
+    box-shadow: 0 0 35px #ffcc5555;
+    transition: transform 6s cubic-bezier(0.12, 0.65, 0.08, 1);
+}
+
+.pointer {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 19px solid transparent;
+    border-right: 19px solid transparent;
+    border-top: 45px solid #ffffff;
+    filter: drop-shadow(0 3px 5px #0008);
+    z-index: 5;
+}
+
+button {
+    border: none;
+    border-radius: 50px;
+    padding: 18px 38px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #392000;
+    background: linear-gradient(135deg, #ffe993, #ffad32);
+    box-shadow: 0 5px 25px #ffb52c55;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+#result {
+    display: none;
+    max-width: 430px;
+    margin: 25px auto;
+    padding: 24px 15px;
+    border: 2px solid #ffd76a;
+    border-radius: 22px;
+    background: #ffffff12;
+    animation: appear 0.5s ease;
+}
+
+.beer {
+    font-size: 75px;
+}
+
+#result h2 {
+    color: #ffd76a;
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+.voucher {
+    border: 2px dashed #ffd76a;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 12px;
+    line-height: 1.7;
+}
+
+footer {
+    margin-top: 35px;
+    color: #c8a9d1;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.confetti {
+    position: fixed;
+    top: -20px;
+    pointer-events: none;
+    z-index: 100;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(900deg);
     }
+}
 
-    html {
-      scroll-behavior: smooth;
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
     }
-
-    body {
-      background-color: #ffffff;
-      color: #000000;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Helvetica, Arial, sans-serif;
-      text-transform: lowercase;
-      overflow-x: hidden;
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
-
-    /* startbereich */
-    .hero {
-      min-height: 65vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-      position: relative;
-    }
-
-    .emoji {
-      width: 160px;
-      height: 160px;
-      object-fit: contain;
-      margin-bottom: 24px;
-      user-select: none;
-    }
-
-    .title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      letter-spacing: -1px;
-    }
-
-    /* hauptbereich */
-    .content {
-      min-height: 35vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px 40px;
-    }
-
-    .main-navigation {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* buttons */
-    .links-container {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .link-card {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 16px 20px;
-      border: 1px solid #000000;
-      color: #000000;
-      text-decoration: none;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 400;
-      border-radius: 8px;
-      transition: background-color 0.2s ease,
-                  color 0.2s ease;
-    }
-
-    .link-card:hover {
-      background-color: #000000;
-      color: #ffffff;
-    }
-
-    /* instagram icon */
-    .instagram-icon {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-    }
-
-    /* footer */
-    footer {
-      margin-top: 60px;
-      font-size: 0.85rem;
-      text-align: center;
-      opacity: 0.7;
-    }
-
-    footer a {
-      color: #000000;
-      text-decoration: none;
-      margin: 0 8px;
-      transition: opacity 0.2s ease;
-    }
-
-    footer a:hover {
-      opacity: 0.5;
-      text-decoration: underline;
-    }
-
-    /* mobile ansicht */
-    @media (max-width: 600px) {
-      .hero {
-        min-height: 55vh;
-      }
-
-      .emoji {
-        width: 130px;
-        height: 130px;
-      }
-
-      .title {
-        font-size: 2rem;
-      }
-
-      .content {
-        min-height: 45vh;
-        padding: 10px 20px 30px;
-      }
-
-      .links-container {
-        max-width: 400px;
-      }
-
-      footer {
-        margin-top: 50px;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <!-- startbereich -->
-  <section class="hero">
+<div style="font-size:45px">🎈🎂🎈</div>
 
-    <img
-      src="1792328531760.jpg"
-      alt="onlyscheli emoji"
-      class="emoji"
-    >
+<h1>Alles Gute zum Geburtstag,<br>Sini-Mini!</h1>
 
-    <h1 class="title">onlyscheli</h1>
+<p class="subtitle">
+    Heute ist dein Glückstag! ❤️<br>
+    Scheli hat weder Kosten noch Mühen gescheut,
+    um dir die unglaublichsten Gewinne zu ermöglichen.
+</p>
 
-  </section>
+<h2>✨ Dein Geburtstags-Glücksrad ✨</h2>
 
-  <!-- links -->
-  <main class="content">
+<p>Ein Dreh könnte dein Leben verändern!</p>
 
-    <div class="main-navigation">
+<div class="wheel-container">
+    <div class="pointer"></div>
+    <canvas id="wheel" width="800" height="800"></canvas>
+</div>
 
-      <div class="links-container">
+<button id="spinButton" onclick="spin()">
+    🍀 Dreh dein Glück!
+</button>
 
-        <!-- foodpairingguide -->
-        <a
-          href="https://onlyscheli.com/pairing"
-          class="link-card"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          foodpairingguide
-        </a>
+<p id="status">Traust du dich? 😏</p>
 
-        <!-- instagram craftbeerpairing -->
-        <a
-          href="https://instagram.com/craftbeerpairing"
-          class="link-card"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+<div id="result">
 
-          <!-- instagram logo als svg -->
-          <svg
-            class="instagram-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <rect
-              x="2"
-              y="2"
-              width="20"
-              height="20"
-              rx="5"
-              ry="5"
-            />
-            <circle
-              cx="12"
-              cy="12"
-              r="4"
-            />
-            <circle
-              cx="17.5"
-              cy="6.5"
-              r="1"
-              fill="currentColor"
-              stroke="none"
-            />
-          </svg>
+    <div class="beer">🍺</div>
 
-          craftbeerpairing
-        </a>
+    <h2>JACKPOT!</h2>
 
-        <!-- impressum -->
-        <a
-          href="impressum.html"
-          class="link-card"
-        >
-          impressum
-        </a>
+    <h3>Du hast 1 Bier gewonnen!</h3>
 
-        <!-- datenschutz -->
-        <a
-          href="datenschutz.html"
-          class="link-card"
-        >
-          datenschutz
-        </a>
+    <p>
+        Schade, fast wäre es der BMW geworden.<br>
+        Aber man kann ja nicht alles haben. 😂
+    </p>
 
-      </div>
-
+    <div class="voucher">
+        🎁 <strong>OFFIZIELLER GUTSCHEIN</strong><br><br>
+        Für: <strong>Sini-Mini</strong><br>
+        Gewinn: <strong>1 eiskaltes Bier 🍺</strong><br>
+        Einlösbar bei: <strong>Scheli</strong><br>
+        Gültig: Bis wir Durst haben.
     </div>
 
-    <!-- footer -->
-    <footer>
-      <a href="impressum.html">impressum</a> |
-      <a href="datenschutz.html">datenschutz</a>
-    </footer>
+    <p>
+        Alles Liebe zum Geburtstag! ❤️<br>
+        Bleib so, wie du bist!
+    </p>
 
-  </main>
+    <p>Dein Scheli</p>
+
+</div>
+
+<footer>
+    © Schelis Geburtstags-Gewinnspiel<br>
+    Der Rechtsweg ist ausgeschlossen.<br>
+    Luxusgewinne sind rein dekorativer Natur. 😉
+</footer>
+
+<script>
+const prizes = [
+    { icon: "🍺", lines: ["1 BIER"] },
+    { icon: "🏍️", lines: ["Harley", "Davidson"] },
+    { icon: "🚘", lines: ["BMW M4", "Cabrio"] },
+    { icon: "🏝️", lines: ["Malediven", "Urlaub"] },
+    { icon: "💶", lines: ["10.000 €", "Cash"] },
+    { icon: "🏠", lines: ["Villa", "am Meer"] },
+    { icon: "⌚", lines: ["Rolex"] },
+    { icon: "🛥️", lines: ["Luxus", "Yacht"] }
+];
+
+const colors = [
+    "#d49b23",
+    "#9d326b",
+    "#2859a5",
+    "#168477",
+    "#b44545",
+    "#6741a5",
+    "#247d9e",
+    "#b56730"
+];
+
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const center = 400;
+const radius = 400;
+const slice = 2 * Math.PI / prizes.length;
+
+let rotation = 0;
+let spinning = false;
+let attempts = 0;
+
+function drawWheel() {
+
+    prizes.forEach((prize, i) => {
+
+        const angle = i * slice - Math.PI / 2;
+        const start = angle - slice / 2;
+        const end = angle + slice / 2;
+
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, radius, start, end);
+        ctx.closePath();
+
+        ctx.fillStyle = colors[i];
+        ctx.fill();
+
+        ctx.strokeStyle = "#ffe7a0";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(center, center);
+        ctx.rotate(angle + Math.PI / 2);
+
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+
+        ctx.font = "65px Arial";
+        ctx.fillText(prize.icon, 0, -290);
+
+        ctx.font = "bold 31px Arial";
+
+        prize.lines.forEach((line, j) => {
+            ctx.fillText(line, 0, -235 + j * 35);
+        });
+
+        ctx.restore();
+    });
+
+    // Goldene Mitte
+    ctx.beginPath();
+    ctx.arc(center, center, 70, 0, Math.PI * 2);
+    ctx.fillStyle = "#ffd76a";
+    ctx.fill();
+
+    ctx.strokeStyle = "#fff2c2";
+    ctx.lineWidth = 7;
+    ctx.stroke();
+
+    ctx.fillStyle = "#392000";
+    ctx.font = "bold 25px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("SINI", center, center - 5);
+    ctx.fillText("MINI", center, center + 25);
+}
+
+drawWheel();
+
+function spin() {
+
+    if (spinning) return;
+
+    spinning = true;
+    attempts++;
+
+    const button = document.getElementById("spinButton");
+    const status = document.getElementById("status");
+    const result = document.getElementById("result");
+
+    button.disabled = true;
+    button.innerText = "Das Schicksal entscheidet ...";
+    result.style.display = "none";
+
+    status.innerText = "Ohhh ... vielleicht wird es der BMW! 👀";
+
+    // Das Rad landet IMMER auf dem Bier.
+    // Die Anzahl der Umdrehungen variiert.
+    const rounds = 5 + Math.floor(Math.random() * 4);
+    const offset = Math.random() * 24 - 12;
+
+    rotation = Math.ceil(rotation / 360) * 360
+               + rounds * 360 + offset;
+
+    canvas.style.transform = `rotate(${rotation}deg)`;
+
+    setTimeout(() => {
+        status.innerText = "Das wird spannend ... 😱";
+    }, 3000);
+
+    setTimeout(() => {
+
+        spinning = false;
+        button.disabled = false;
+        button.innerText = "🔄 Nochmal versuchen";
+
+        result.style.display = "block";
+
+        if (attempts === 1) {
+            status.innerText = "Herzlichen Glückwunsch! 🎉";
+        } else if (attempts === 2) {
+            status.innerText = "Schon wieder Bier? So ein Zufall! 😂";
+        } else if (attempts === 3) {
+            status.innerText = "Sini-Mini, der BMW wird's nicht. 😂";
+        } else {
+            status.innerText = "Akzeptiere dein Schicksal. 🍺";
+        }
+
+        confetti();
+
+        result.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
+    }, 6200);
+}
+
+function confetti() {
+
+    const emojis = ["🎉", "✨", "🍺", "🎊", "❤️", "⭐"];
+
+    for (let i = 0; i < 70; i++) {
+
+        const piece = document.createElement("div");
+
+        piece.className = "confetti";
+        piece.innerText =
+            emojis[Math.floor(Math.random() * emojis.length)];
+
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.fontSize = 12 + Math.random() * 20 + "px";
+        piece.style.animationDuration = 2 + Math.random() * 3 + "s";
+        piece.style.animationDelay = Math.random() * 1.5 + "s";
+
+        document.body.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 7000);
+    }
+}
+</script>
 
 </body>
 </html>
