@@ -3,261 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sini-Minis Geburtstags-Glücksrad</title>
+<title>Bubble Pop 98</title>
 
 <style>
 * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     margin: 0;
-    padding: 10px 12px;
     min-height: 100dvh;
-    font-family: Arial, sans-serif;
-    color: white;
-    text-align: center;
-    background: linear-gradient(
-        135deg,
-        #ff1493,
-        #c71585,
-        #8a2be2,
-        #ff69b4
-    );
-    background-size: 300% 300%;
-    animation: backgroundMove 8s ease infinite;
-    overflow-x: hidden;
+    background: #008080;
+    font-family: "Courier New", monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    user-select: none;
 }
 
-@keyframes backgroundMove {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-.main {
-    max-width: 500px;
-    margin: auto;
-}
-
-.party {
-    font-size: 30px;
-    margin: 2px 0;
-}
-
-h1 {
-    font-size: clamp(25px, 7vw, 42px);
-    line-height: 1.1;
-    margin: 8px 0;
-    color: #fff;
-    text-shadow:
-        0 3px 0 #b50079,
-        0 0 20px #ffb9ec;
-}
-
-.name {
-    display: inline-block;
-    color: #fff45c;
-    font-size: 1.2em;
-    margin-top: 4px;
-    text-shadow:
-        0 3px 0 #ff5c00,
-        0 0 20px #ffdd00;
-}
-
-.subtitle {
-    font-size: 15px;
-    margin: 8px 0;
-    line-height: 1.4;
-}
-
-h2 {
-    font-size: 19px;
-    margin: 10px 0 4px;
-}
-
-.wheel-container {
-    position: relative;
-    width: min(85vw, 43vh, 390px);
-    width: min(85vw, 43dvh, 390px);
-    margin: 22px auto 18px;
-}
-
-canvas {
-    display: block;
+.window {
     width: 100%;
-    height: auto;
-    border: 6px solid #fff;
-    border-radius: 50%;
-    box-shadow:
-        0 0 0 5px #ff42bf,
-        0 0 20px #fff,
-        0 0 45px #ff9ae8;
-    transition: transform 6s cubic-bezier(
-        0.12, 0.65, 0.08, 1
-    );
+    max-width: 780px;
+    background: #c0c0c0;
+    padding: 5px;
+    border: 3px solid;
+    border-color: white #404040 #404040 white;
+    box-shadow: 7px 7px 0 #0004;
 }
 
-.pointer {
-    position: absolute;
-    top: -13px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 16px solid transparent;
-    border-right: 16px solid transparent;
-    border-top: 38px solid #fff600;
-    filter: drop-shadow(0 3px 3px #a30070);
-    z-index: 5;
+.titlebar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 5px;
 }
 
 button {
-    width: min(90%, 350px);
-    border: 3px solid white;
-    border-radius: 50px;
-    padding: 14px 12px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #9c0063;
-    background: linear-gradient(
-        135deg, #fff600, #ffb52c
-    );
-    box-shadow:
-        0 5px 0 #b50079,
-        0 0 25px #ffea0088;
+    font-family: inherit;
     cursor: pointer;
-    touch-action: manipulation;
-    animation: pulse 1.8s infinite;
 }
 
-button:disabled {
-    opacity: 0.8;
-    animation: none;
-    font-size: 16px;
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.04); }
-}
-
-#status {
-    font-size: 14px;
-    min-height: 18px;
-    margin: 12px 0 5px;
-}
-
-#result {
-    display: none;
-    max-width: 430px;
-    margin: 22px auto;
-    padding: 22px 15px;
-    border: 3px solid white;
-    border-radius: 25px;
-    background: linear-gradient(
-        135deg, #ff9edb, #ff42a1, #ae35ff
-    );
-    box-shadow: 0 0 30px #ffb5ec;
-    animation: appear 0.5s ease;
-}
-
-.beer {
-    font-size: 85px;
-    animation: bounce 1s infinite;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-#result h2 {
-    color: #fff600;
-    font-size: 38px;
-    margin: 5px 0;
-    text-shadow: 0 3px 0 #e00085;
-}
-
-#result h3 {
-    font-size: 25px;
-    margin: 12px 0;
-}
-
-.voucher {
-    border: 3px dashed #ff1493;
-    padding: 18px 10px;
-    margin-top: 20px;
-    border-radius: 18px;
-    line-height: 1.8;
-    background: #fff0fa;
-    color: #b00070;
-}
-
-.signature {
-    font-size: 27px;
+.retro-button {
+    background: #c0c0c0;
+    border: 3px solid;
+    border-color: white #404040 #404040 white;
+    padding: 8px 12px;
     font-weight: bold;
-    font-style: italic;
-    color: #fff600;
+    color: black;
+    touch-action: manipulation;
 }
 
-footer {
-    margin: 22px 0 10px;
-    color: #ffd6f0;
-    font-size: 11px;
-    line-height: 1.6;
+.retro-button:active {
+    border-color: #404040 white white #404040;
 }
 
-.confetti {
-    position: fixed;
-    top: -40px;
+.intro {
+    text-align: center;
+    padding: 5px 10px 15px;
+}
+
+h1 {
+    font-size: clamp(23px, 5vw, 38px);
+    margin: 8px 0;
+    letter-spacing: -2px;
+    color: #000080;
+    text-shadow: 2px 2px white;
+}
+
+.intro p {
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.counter {
+    background: #111;
+    color: #39ff14;
+    padding: 8px 10px;
+    font-weight: bold;
+    font-size: 14px;
+    border: 2px inset #ddd;
+}
+
+.foil {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 7px;
+    padding: 12px;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #ffffff30 0px,
+            #ffffff30 1px,
+            transparent 1px,
+            transparent 5px
+        ),
+        linear-gradient(135deg, #b5c8ce, #eef5f5, #9baeb6);
+    border: 3px inset #ddd;
+}
+
+.bubble {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid #82949b;
+    background:
+        radial-gradient(
+            ellipse at 30% 22%,
+            #ffffff 0%,
+            #ffffffbb 10%,
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 42% 35%,
+            #eefbff 0%,
+            #c9dce2 45%,
+            #a2b6bf 75%,
+            #70868f 100%
+        );
+    box-shadow:
+        inset 2px 3px 5px #fff,
+        inset -4px -5px 8px #50636b66,
+        2px 4px 5px #40515b55;
+    transition: transform 0.12s, box-shadow 0.12s;
+    touch-action: manipulation;
+}
+
+.bubble::before {
+    content: "";
+    position: absolute;
+    inset: 5%;
+    border-radius: 50%;
+    border: 1px solid #ffffff88;
+}
+
+.bubble:focus-visible {
+    outline: 2px dashed navy;
+    outline-offset: 2px;
+}
+
+@media (hover: hover) {
+    .bubble:not(.popped):hover {
+        filter: brightness(1.12);
+        transform: scale(1.05);
+    }
+}
+
+.bubble.popped {
+    transform: scale(0.89);
+    background:
+        repeating-conic-gradient(
+            from 20deg,
+            #ffffff55 0deg,
+            #7b929733 15deg,
+            transparent 35deg,
+            #ffffff66 50deg
+        ),
+        radial-gradient(
+            circle,
+            #a5b5bb,
+            #c7d5d9 55%,
+            #879ca5 100%
+        );
+    box-shadow:
+        inset 2px 3px 8px #455b6266,
+        inset -2px -2px 3px white;
+    border: 1px dashed #8a9ca3;
+}
+
+.bubble.popped::before {
+    inset: 25%;
+    border-radius: 25% 60% 35% 50%;
+    border: 1px solid #778c9366;
+}
+
+.pop-text {
+    position: absolute;
+    z-index: 5;
+    top: 20%;
+    left: 50%;
     pointer-events: none;
-    z-index: 100;
-    animation: fall linear forwards;
+    color: #000080;
+    font-size: 17px;
+    font-weight: 900;
+    white-space: nowrap;
+    text-shadow: 1px 1px white;
+    animation: floatUp 0.65s ease-out forwards;
 }
 
-@keyframes fall {
-    to {
-        transform: translateY(115vh) rotate(900deg);
-    }
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: scale(0.7);
-    }
-    to {
+@keyframes floatUp {
+    0% {
         opacity: 1;
-        transform: scale(1);
+        transform: translate(-50%, 0) scale(0.6);
+    }
+    25% {
+        transform: translate(-50%, -12px) scale(1.3);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -45px) scale(1);
     }
 }
 
-@media (max-height: 650px) {
-    .party {
-        font-size: 23px;
+.bubble.refill {
+    animation: inflate 0.4s ease-out;
+}
+
+@keyframes inflate {
+    0% { transform: scale(0.7); }
+    65% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.statusbar {
+    margin-top: 8px;
+    border: 2px inset #eee;
+    padding: 7px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.footer {
+    text-align: center;
+    font-size: 10px;
+    padding: 12px 0 5px;
+    color: #555;
+}
+
+@media (max-width: 550px) {
+    .foil {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 5px;
+        padding: 8px;
     }
 
-    h1 {
-        font-size: 24px;
+    .toolbar {
+        gap: 5px;
     }
 
-    .subtitle {
-        font-size: 13px;
-        margin: 5px 0;
+    .retro-button {
+        padding: 7px;
+        font-size: 12px;
     }
 
-    h2 {
-        font-size: 16px;
-    }
-
-    .wheel-container {
-        margin: 17px auto 13px;
-        width: min(78vw, 40vh, 340px);
-    }
-
-    button {
-        padding: 11px;
-        font-size: 17px;
+    .counter {
+        font-size: 12px;
     }
 }
 </style>
@@ -265,359 +271,314 @@ footer {
 
 <body>
 
-<div class="main">
+<main class="window">
 
-    <div class="party">🩷 🎈 🎂 🎈 🩷</div>
-
-    <h1>
-        Alles Gute zum Geburtstag!<br>
-        <span class="name">Sini-Mini</span>
-    </h1>
-
-    <p class="subtitle">
-        Heute ist dein Glückstag! 🥳<br>
-        Ein Dreh könnte dein Leben verändern!
-    </p>
-
-    <h2>✨ Dein Geburtstags-Glücksrad ✨</h2>
-
-    <div class="wheel-container">
-        <div class="pointer"></div>
-        <canvas id="wheel" width="800" height="800"></canvas>
+    <div class="titlebar">
+        <span>▣ Bubble Pop 98.exe</span>
+        <span>_ □</span>
     </div>
 
-    <button id="spinButton" onclick="spin()">
-        🍀 Dreh dein Glück!
-    </button>
+    <div class="intro">
+        <h1>BUBBLE POP '98</h1>
+        <p>THE ULTIMATE STRESS DESTROYER</p>
+        <p>Keine Termine. Keine Aufgaben. Nur Plopp.</p>
+    </div>
 
-    <p id="status">Traust du dich? 😏</p>
+    <div class="toolbar">
+        <button class="retro-button" id="sound"
+                aria-label="Ton ausschalten"
+                aria-pressed="true">
+            🔊 TON AN
+        </button>
 
-    <div id="result">
-
-        <div class="beer">🍺</div>
-
-        <h2>JACKPOT!</h2>
-
-        <h3>Du hast 1 Bier gewonnen!</h3>
-
-        <p id="joke">
-            Schade, fast wäre es der BMW geworden.<br>
-            Aber man kann ja nicht alles haben. 😂
-        </p>
-
-        <div class="voucher">
-
-            🎀 <strong>OFFIZIELLER GUTSCHEIN</strong> 🎀
-
-            <br><br>
-
-            Für: <strong>Sini-Mini</strong><br>
-
-            Gewinn:<br>
-            <strong style="font-size:25px">
-                1 eiskaltes Bier 🍺
-            </strong>
-
-            <br><br>
-
-            Einlösbar bei: <strong>Scheli</strong><br>
-
-            Gültig: Bis wir Durst haben.
-
+        <div class="counter">
+            POP: <span id="count">000000</span>
         </div>
 
-        <p>
-            Alles Liebe zum Geburtstag! 🩷<br>
-            Bleib so, wie du bist!
-        </p>
-
-        <p class="signature">Scheli</p>
-
+        <button class="retro-button" id="reset">
+            ↻ NEU
+        </button>
     </div>
 
-    <footer>
-        © Schelis Geburtstags-Gewinnspiel<br>
-        Der Rechtsweg ist ausgeschlossen. 😉
-    </footer>
+    <div class="foil" id="foil"></div>
 
-</div>
+    <div class="statusbar">
+        <span id="status">● Bereit zum Ploppen</span>
+        <span>∞ ENDLOS</span>
+    </div>
+
+    <div class="footer">
+        © 1998 BubbleSoft · 100% Stressabbau-Modus
+    </div>
+
+</main>
 
 <script>
+const foil = document.getElementById("foil");
+const counter = document.getElementById("count");
+const soundButton = document.getElementById("sound");
+const status = document.getElementById("status");
 
-const prizes = [
-    { icon: "🍺", lines: ["1 BIER"] },
-    { icon: "🏍️", lines: ["Harley", "Davidson"] },
-    { icon: "🚘", lines: ["BMW M4", "Cabrio"] },
-    { icon: "🏝️", lines: ["Malediven", "Urlaub"] },
-    { icon: "💶", lines: ["10.000 €", "Cash"] },
-    { icon: "🏠", lines: ["Villa", "am Meer"] },
-    { icon: "⌚", lines: ["Rolex"] },
-    { icon: "🛥️", lines: ["Luxus", "Yacht"] }
+let pops = 0;
+let soundEnabled = true;
+let audioContext;
+let masterGain;
+
+const refillTime = 2500;
+
+const words = [
+    "PLOPP!",
+    "BOING!",
+    "PUFF!",
+    "PIP!",
+    "BLUB!",
+    "PATSCH!",
+    "PÖCK!",
+    "POINK!"
 ];
 
-const colors = [
-    "#ffb800",
-    "#ff1493",
-    "#00a8ff",
-    "#00c987",
-    "#ff4757",
-    "#a855f7",
-    "#ff65c3",
-    "#ff7800"
+const messages = [
+    "Stress erfolgreich vernichtet!",
+    "Ein Problem weniger.",
+    "Plopp.exe funktioniert!",
+    "Sehr befriedigend ...",
+    "Entspannung wird geladen ...",
+    "Alles easy!",
+    "Therapie für die Finger.",
+    "Bitte weiterploppen!"
 ];
 
-const canvas = document.getElementById("wheel");
-const ctx = canvas.getContext("2d");
+function random(min, max) {
+    return min + Math.random() * (max - min);
+}
 
-const center = 400;
-const radius = 400;
-const slice = 2 * Math.PI / prizes.length;
+function initAudio() {
+    if (!audioContext) {
+        const AudioClass =
+            window.AudioContext || window.webkitAudioContext;
 
-let rotation = 0;
-let spinning = false;
-let attempts = 0;
+        if (!AudioClass) return false;
 
-function drawWheel() {
-
-    prizes.forEach((prize, i) => {
-
-        const angle = i * slice - Math.PI / 2;
-        const start = angle - slice / 2;
-        const end = angle + slice / 2;
-
-        ctx.beginPath();
-        ctx.moveTo(center, center);
-        ctx.arc(center, center, radius, start, end);
-        ctx.closePath();
-
-        ctx.fillStyle = colors[i];
-        ctx.fill();
-
-        ctx.strokeStyle = "#ffffff";
-        ctx.lineWidth = 5;
-        ctx.stroke();
-
-        ctx.save();
-        ctx.translate(center, center);
-        ctx.rotate(angle + Math.PI / 2);
-
-        ctx.textAlign = "center";
-        ctx.fillStyle = "white";
-
-        ctx.shadowColor = "#00000066";
-        ctx.shadowBlur = 5;
-
-        ctx.font = "75px Arial";
-        ctx.fillText(prize.icon, 0, -290);
-
-        ctx.font = "bold 35px Arial";
-
-        prize.lines.forEach((line, j) => {
-            ctx.fillText(line, 0, -230 + j * 39);
-        });
-
-        ctx.restore();
-    });
-
-    // Dekorative Punkte am Rand
-
-    for (let i = 0; i < 32; i++) {
-
-        const angle = i * Math.PI * 2 / 32;
-
-        ctx.beginPath();
-
-        ctx.arc(
-            center + Math.cos(angle) * 382,
-            center + Math.sin(angle) * 382,
-            6, 0, Math.PI * 2
-        );
-
-        ctx.fillStyle = i % 2 === 0
-            ? "#ffffff"
-            : "#fff600";
-
-        ctx.fill();
+        audioContext = new AudioClass();
+        masterGain = audioContext.createGain();
+        masterGain.gain.value = soundEnabled ? 0.6 : 0;
+        masterGain.connect(audioContext.destination);
     }
 
-    // Pinke Mitte
+    if (audioContext.state === "suspended") {
+        audioContext.resume().catch(() => {});
+    }
 
-    ctx.beginPath();
-    ctx.arc(center, center, 76, 0, Math.PI * 2);
+    return true;
+}
 
-    const gradient = ctx.createRadialGradient(
-        center, center, 5,
-        center, center, 76
+// Kurzes elektronisches Retro-Geräusch
+function tone(start, end, duration, type, volume, delay = 0) {
+    const now = audioContext.currentTime + delay;
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(start, now);
+    oscillator.frequency.exponentialRampToValueAtTime(
+        end, now + duration
     );
 
-    gradient.addColorStop(0, "#ffb6e9");
-    gradient.addColorStop(1, "#ff008c");
+    gain.gain.setValueAtTime(volume, now);
+    gain.gain.exponentialRampToValueAtTime(
+        0.001, now + duration
+    );
 
-    ctx.fillStyle = gradient;
-    ctx.fill();
+    oscillator.connect(gain);
+    gain.connect(masterGain);
 
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 8;
-    ctx.stroke();
-
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 28px Arial";
-    ctx.textAlign = "center";
-
-    ctx.fillText("SINI", center, center - 5);
-    ctx.fillText("MINI", center, center + 27);
+    oscillator.start(now);
+    oscillator.stop(now + duration);
 }
 
-drawWheel();
+// Knackendes Luftpolster-Geräusch
+function crackle() {
+    const duration = 0.075;
+    const length = Math.floor(
+        audioContext.sampleRate * duration
+    );
 
-// Anfangs zeigt der Pfeil auf den BMW.
+    const buffer = audioContext.createBuffer(
+        1, length, audioContext.sampleRate
+    );
 
-rotation = 270;
+    const data = buffer.getChannelData(0);
 
-canvas.style.transition = "none";
-canvas.style.transform = `rotate(${rotation}deg)`;
+    for (let i = 0; i < length; i++) {
+        data[i] =
+            (Math.random() * 2 - 1) *
+            Math.exp(-i / (length * 0.12));
+    }
 
-canvas.getBoundingClientRect();
+    const source = audioContext.createBufferSource();
+    const filter = audioContext.createBiquadFilter();
+    const gain = audioContext.createGain();
 
-canvas.style.transition =
-    "transform 6s cubic-bezier(0.12, 0.65, 0.08, 1)";
+    source.buffer = buffer;
+    filter.type = "lowpass";
+    filter.frequency.value = random(1200, 4000);
+    gain.gain.value = 0.45;
 
-function spin() {
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(masterGain);
 
-    if (spinning) return;
-
-    spinning = true;
-    attempts++;
-
-    const button = document.getElementById("spinButton");
-    const status = document.getElementById("status");
-    const result = document.getElementById("result");
-    const joke = document.getElementById("joke");
-
-    button.disabled = true;
-    button.innerText = "✨ Das Schicksal entscheidet ...";
-
-    result.style.display = "none";
-
-    status.innerText = "Ohhh ... vielleicht wird es der BMW! 👀";
-
-    // Das Rad landet IMMER exakt auf dem Bier.
-
-    const rounds = 5 + Math.floor(Math.random() * 4);
-
-    rotation = Math.ceil(rotation / 360) * 360
-               + rounds * 360;
-
-    canvas.style.transform = `rotate(${rotation}deg)`;
-
-    setTimeout(() => {
-
-        status.innerText = "Oh mein Gott, wie spannend! 😱";
-
-    }, 2500);
-
-    setTimeout(() => {
-
-        status.innerText = "Sini-Mini, mach dich bereit! 🤩";
-
-    }, 4500);
-
-    setTimeout(() => {
-
-        spinning = false;
-        button.disabled = false;
-
-        button.innerText = "🔄 Nochmal versuchen";
-
-        result.style.display = "block";
-
-        if (attempts === 1) {
-
-            status.innerText = "Herzlichen Glückwunsch! 🎉";
-
-            joke.innerHTML =
-                "Schade, fast wäre es der BMW geworden.<br>" +
-                "Aber man kann ja nicht alles haben. 😂";
-
-        } else if (attempts === 2) {
-
-            status.innerText = "Schon wieder Bier? 😂";
-
-            joke.innerHTML =
-                "Was für ein unglaublicher Zufall!<br>" +
-                "Schon wieder ein Bier!";
-
-        } else if (attempts === 3) {
-
-            status.innerText = "Das gibt's doch nicht! 🤣";
-
-            joke.innerHTML =
-                "Sini-Mini, vergiss die Harley.<br>" +
-                "Du bist offenbar fürs Bier bestimmt.";
-
-        } else if (attempts === 4) {
-
-            status.innerText = "Du gibst wohl nicht auf? 😏";
-
-            joke.innerHTML =
-                "Die Malediven müssen leider warten.<br>" +
-                "Bier ist auch Urlaub. Für die Seele.";
-
-        } else {
-
-            status.innerText = "Akzeptiere dein Schicksal. 🍺";
-
-            joke.innerHTML =
-                "Du kannst noch 100 Mal drehen.<br>" +
-                "Scheli kauft dir trotzdem keinen BMW. 😂<br><br>" +
-                "Und nein, die Biere werden nicht addiert!";
-
-        }
-
-        confetti();
-
-        result.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-
-    }, 6200);
+    source.start();
 }
 
-function confetti() {
+// Acht verschiedene Soundeffekte
+function playPop(type) {
+    if (!soundEnabled || !initAudio()) return;
 
-    const emojis = [
-        "🎉", "✨", "🍺", "🎊",
-        "🩷", "💖", "⭐", "🌸",
-        "💗", "🥳", "🎀"
-    ];
+    const pitch = random(0.85, 1.15);
 
-    for (let i = 0; i < 100; i++) {
+    switch (type) {
+        case 0:
+            crackle();
+            tone(350 * pitch, 65, 0.09, "sine", 0.4);
+            break;
 
-        const piece = document.createElement("div");
+        case 1:
+            tone(180, 750 * pitch, 0.12, "triangle", 0.3);
+            tone(750, 110, 0.18, "sine", 0.2, 0.08);
+            break;
 
-        piece.className = "confetti";
+        case 2:
+            crackle();
+            tone(140, 40, 0.14, "triangle", 0.3);
+            break;
 
-        piece.innerText =
-            emojis[Math.floor(Math.random() * emojis.length)];
+        case 3:
+            tone(1200 * pitch, 500, 0.08, "square", 0.09);
+            break;
 
-        piece.style.left = Math.random() * 100 + "vw";
+        case 4:
+            tone(500, 90, 0.13, "sine", 0.4);
+            tone(300, 70, 0.09, "sine", 0.2, 0.06);
+            break;
 
-        piece.style.fontSize =
-            12 + Math.random() * 25 + "px";
+        case 5:
+            crackle();
+            tone(220, 55, 0.07, "triangle", 0.4);
+            break;
 
-        piece.style.animationDuration =
-            2 + Math.random() * 3 + "s";
+        case 6:
+            tone(800 * pitch, 100, 0.055, "triangle", 0.35);
+            break;
 
-        piece.style.animationDelay =
-            Math.random() * 1.5 + "s";
-
-        document.body.appendChild(piece);
-
-        setTimeout(() => piece.remove(), 7000);
+        case 7:
+            tone(400, 1400 * pitch, 0.09, "sine", 0.3);
+            tone(900, 200, 0.12, "triangle", 0.15, 0.06);
+            break;
     }
 }
 
+function popBubble(bubble) {
+    if (bubble.classList.contains("popped")) return;
+
+    bubble.classList.remove("refill");
+    bubble.classList.add("popped");
+    bubble.setAttribute("aria-label", "Zerdrücktes Luftpolster");
+
+    pops++;
+    counter.textContent = String(pops).padStart(6, "0");
+
+    const type = Math.floor(Math.random() * words.length);
+
+    playPop(type);
+
+    // Lustiger Plopp-Schriftzug
+    const text = document.createElement("span");
+    text.className = "pop-text";
+    text.textContent = words[type];
+    bubble.appendChild(text);
+
+    setTimeout(() => text.remove(), 650);
+
+    status.textContent = "● " + messages[type];
+
+    // Kurze Vibration auf unterstützten Handys
+    if (navigator.vibrate) {
+        navigator.vibrate(12);
+    }
+
+    // Luftpolster automatisch wieder aufblasen
+    setTimeout(() => {
+        if (!bubble.isConnected) return;
+
+        bubble.classList.remove("popped");
+        bubble.classList.add("refill");
+        bubble.setAttribute("aria-label", "Luftpolster zerdrücken");
+
+        setTimeout(() => {
+            bubble.classList.remove("refill");
+        }, 400);
+
+    }, refillTime + random(0, 800));
+}
+
+function createFoil() {
+    foil.innerHTML = "";
+
+    for (let i = 0; i < 48; i++) {
+        const bubble = document.createElement("button");
+
+        bubble.className = "bubble";
+        bubble.type = "button";
+        bubble.setAttribute(
+            "aria-label", "Luftpolster zerdrücken"
+        );
+
+        // Maus, Touch und Stift
+        bubble.addEventListener("pointerdown", event => {
+            if (event.button !== 0) return;
+            popBubble(bubble);
+        });
+
+        // Auch mit der Tastatur bedienbar
+        bubble.addEventListener("click", event => {
+            if (event.detail === 0) {
+                popBubble(bubble);
+            }
+        });
+
+        foil.appendChild(bubble);
+    }
+}
+
+soundButton.addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+
+    soundButton.textContent =
+        soundEnabled ? "🔊 TON AN" : "🔇 TON AUS";
+
+    soundButton.setAttribute(
+        "aria-pressed", String(soundEnabled)
+    );
+
+    soundButton.setAttribute(
+        "aria-label",
+        soundEnabled ? "Ton ausschalten" : "Ton einschalten"
+    );
+
+    if (masterGain) {
+        masterGain.gain.value = soundEnabled ? 0.6 : 0;
+    }
+});
+
+document.getElementById("reset")
+    .addEventListener("click", () => {
+        createFoil();
+        status.textContent = "● Frische Luftpolsterfolie!";
+    });
+
+createFoil();
 </script>
 
 </body>
