@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
 <title>Luftpolsterfolie</title>
 
 <style>
+
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -23,71 +25,131 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    background: #c0c0c0;
-    font-family: Tahoma, Arial, sans-serif;
+    height: 100vh;
+    height: 100dvh;
+    background: #dce4e7;
+    color: #52636b;
+    font-family: Arial, Helvetica, sans-serif;
     user-select: none;
+    -webkit-user-select: none;
 }
+
+/* MINIMALISTISCHE KOPFZEILE */
 
 header {
-    padding: 4px;
-    border: 3px solid;
-    border-color: white #444 #444 white;
-    flex-shrink: 0;
-}
-
-.titlebar {
-    background: linear-gradient(90deg, navy, #1084d0);
-    color: white;
-    padding: 9px;
-    font-weight: bold;
-}
-
-.toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    padding: 8px 2px;
+    gap: 10px;
+    padding: 10px 16px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    background: #e8edef;
+    flex-shrink: 0;
+}
+
+h1 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 button {
-    background: #c0c0c0;
-    border: 3px solid;
-    border-color: white #444 #444 white;
-    padding: 8px;
-    min-height: 38px;
+    border: none;
+    background: transparent;
+    color: #52636b;
+    font-size: 21px;
+    min-width: 36px;
+    min-height: 36px;
     cursor: pointer;
-    font-weight: bold;
+    border-radius: 8px;
     touch-action: manipulation;
 }
 
 button:active {
-    border-color: #444 white white #444;
+    background: #ccd7dc;
 }
 
-button.active {
-    background: #a5bda5;
-    border-color: #444 white white #444;
+input[type="range"] {
+    width: clamp(45px, 15vw, 110px);
+    height: 4px;
+    accent-color: #82979e;
+    cursor: pointer;
 }
 
-.speed {
+/* ENTSPANNUNGSANZEIGE */
+
+.relax-panel {
+    background: #e8edef;
+    padding: 4px 16px 15px;
+    flex-shrink: 0;
+}
+
+.relax-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 5px;
     font-size: 12px;
+    margin-bottom: 8px;
 }
 
-input {
-    width: clamp(60px, 24vw, 180px);
-    accent-color: navy;
+#percent {
+    color: #dc4545;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.6s ease;
 }
+
+.progress {
+    width: 100%;
+    height: 8px;
+    background: #cbd6da;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#bar {
+    width: 1%;
+    height: 100%;
+    border-radius: 20px;
+    background: #dc4545;
+    transition:
+        width 0.4s ease,
+        background-color 0.6s ease;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    gap: 8px;
+    font-size: 11px;
+    color: #70828a;
+}
+
+#message {
+    font-style: italic;
+}
+
+#count {
+    font-variant-numeric: tabular-nums;
+}
+
+/* LUFTPOLSTERFOLIE */
 
 main {
     position: relative;
     flex: 1;
     min-height: 0;
     overflow: hidden;
-    background: #b4c3c8;
+    background: #b8c7cc;
 }
 
 canvas {
@@ -98,111 +160,280 @@ canvas {
     cursor: crosshair;
 }
 
-footer {
-    padding: 6px 8px;
-    font-size: 11px;
-    border: 2px solid;
-    border-color: white #444 #444 white;
-    display: flex;
-    justify-content: space-between;
+/* HANDY-ANSICHT */
+
+@media (max-width: 450px) {
+
+    header {
+        padding-left: 12px;
+        padding-right: 8px;
+    }
+
+    h1 {
+        font-size: 14px;
+    }
+
+    .controls {
+        gap: 4px;
+    }
+
+    .relax-panel {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .info {
+        font-size: 10px;
+    }
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
-    <div class="titlebar">Luftpolsterfolie</div>
 
-    <div class="toolbar">
-        <button id="sound" aria-label="Ton ausschalten">
-            🔊
-        </button>
+    <h1>Luftpolsterfolie</h1>
 
-        <div class="speed">
-            <label for="speed">Tempo</label>
-            <input id="speed" type="range"
-                   min="0" max="80" value="18">
-        </div>
+    <div class="controls">
 
-        <button id="eco" class="active"
-                aria-pressed="true">
-            ECO
-        </button>
+        <button id="sound"
+                aria-label="Ton ausschalten"
+                aria-pressed="true"
+                title="Ton ein / aus">🔊</button>
+
+        <input id="speed"
+               type="range"
+               min="0"
+               max="65"
+               value="16"
+               aria-label="Foliengeschwindigkeit"
+               title="Foliengeschwindigkeit">
 
         <button id="fullscreen"
-                aria-label="Vollbild">⛶</button>
+                aria-label="Vollbild"
+                title="Vollbild">⛶</button>
+
     </div>
+
 </header>
+
+<!-- ENTSPANNUNGSANZEIGE OBEN -->
+
+<section class="relax-panel">
+
+    <div class="relax-header">
+        <span>Entspannung</span>
+        <span id="percent">0 %</span>
+    </div>
+
+    <div class="progress"
+         role="progressbar"
+         aria-label="Spielerischer Entspannungsfortschritt"
+         aria-valuemin="0"
+         aria-valuemax="100"
+         aria-valuenow="0">
+
+        <div id="bar"></div>
+
+    </div>
+
+    <div class="info">
+
+        <span>
+            <span id="count">0</span>
+            Luftpolster zerdrückt
+        </span>
+
+        <span id="message">
+            Einfach loslassen.
+        </span>
+
+    </div>
+
+</section>
+
+<!-- ENDLOSE LUFTPOLSTERFOLIE -->
 
 <main id="area">
     <canvas id="canvas"></canvas>
 </main>
 
-<footer>
-    <span>Klicken oder wischen</span>
-    <span id="mode">ECO · 30 FPS</span>
-</footer>
-
 <script>
+
 "use strict";
 
 const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d", { alpha: false });
+
+const ctx = canvas.getContext(
+    "2d",
+    { alpha: false }
+);
+
 const area = document.getElementById("area");
 const speed = document.getElementById("speed");
 
-let eco = true;
-let soundEnabled = true;
+const countDisplay = document.getElementById("count");
+const percentDisplay = document.getElementById("percent");
+const bar = document.getElementById("bar");
+const message = document.getElementById("message");
+const progress = document.querySelector(".progress");
+
 let width = 0;
 let height = 0;
-let bubbles = [];
 let cell = 52;
 let columns = 6;
+
+let bubbles = [];
 let nextY = 0;
 let lastFrame = 0;
 let dirty = true;
 
+let totalPops = 0;
+let statsDirty = false;
+let soundEnabled = true;
+
 const pointers = new Map();
 const sprites = {};
-const random = (a, b) => a + Math.random() * (b - a);
+
+const random = (a, b) =>
+    a + Math.random() * (b - a);
+
 
 /* ==================================
-   LUFTPOLSTER-GRAFIKEN
-   Nur einmal vorberechnen!
+   ENTSPANNUNGSANZEIGE
+   ROT - ORANGE - GRÜN
+================================== */
+
+function updateStats() {
+
+    // Spielerischer Fortschritt.
+    // Keine tatsächliche Stressmessung.
+
+    const relaxation = Math.min(
+        100,
+        Math.round(
+            100 * (1 - Math.exp(-totalPops / 100))
+        )
+    );
+
+    countDisplay.textContent =
+        totalPops.toLocaleString("de-AT");
+
+    percentDisplay.textContent =
+        relaxation + " %";
+
+    bar.style.width =
+        Math.max(1, relaxation) + "%";
+
+    // Fließender Farbwechsel:
+    // 0 % = Rot
+    // 50 % = Orange
+    // 100 % = Grün
+
+    const hue = relaxation <= 50
+        ? relaxation * 0.6
+        : 30 + (relaxation - 50) * 1.8;
+
+    const color =
+        `hsl(${hue}, 65%, 48%)`;
+
+    bar.style.backgroundColor = color;
+    percentDisplay.style.color = color;
+
+    progress.setAttribute(
+        "aria-valuenow",
+        relaxation
+    );
+
+    let text;
+
+    if (relaxation < 10) {
+
+        text = "Einfach loslassen.";
+
+    } else if (relaxation < 25) {
+
+        text = "Ein bisschen Ruhe.";
+
+    } else if (relaxation < 40) {
+
+        text = "Der Alltag rückt in die Ferne.";
+
+    } else if (relaxation < 60) {
+
+        text = "Zeit nur für dich.";
+
+    } else if (relaxation < 75) {
+
+        text = "Immer schön gemütlich.";
+
+    } else if (relaxation < 90) {
+
+        text = "Nichts muss. Alles kann.";
+
+    } else if (relaxation < 100) {
+
+        text = "Einfach den Moment genießen.";
+
+    } else {
+
+        text = "Ruhemodus. Plopp weiter.";
+
+    }
+
+    if (message.textContent !== text) {
+        message.textContent = text;
+    }
+
+    statsDirty = false;
+}
+
+
+/* ==================================
+   REALISTISCHE LUFTPOLSTER
+   Grafiken einmal vorberechnen
 ================================== */
 
 function makeSprite(size, popped) {
+
     const image = document.createElement("canvas");
+
     image.width = size;
     image.height = size;
 
     const c = image.getContext("2d");
-    const r = size * 0.44;
-    const x = size / 2;
-    const y = size / 2;
 
-    c.save();
-    c.translate(x, y);
+    const r = size * 0.45;
+
+    c.translate(size / 2, size / 2);
 
     c.beginPath();
-    c.ellipse(0, 0, r, r * 0.97, 0, 0, Math.PI * 2);
+
+    c.ellipse(
+        0, 0,
+        r, r * 0.97,
+        0, 0, Math.PI * 2
+    );
 
     if (!popped) {
 
         const gradient = c.createRadialGradient(
-            -r * 0.32, -r * 0.35, 0,
+            -r * 0.32,
+            -r * 0.38,
+            0,
             0, 0, r
         );
 
         gradient.addColorStop(0, "#ffffff");
-        gradient.addColorStop(0.17, "#e9f4f7");
-        gradient.addColorStop(0.42, "#d0dfe4");
-        gradient.addColorStop(0.76, "#aabdc5");
-        gradient.addColorStop(0.92, "#879da6");
-        gradient.addColorStop(1, "#dce7eb");
+        gradient.addColorStop(0.13, "#f2f8fa");
+        gradient.addColorStop(0.38, "#dce8ec");
+        gradient.addColorStop(0.72, "#b7c9d0");
+        gradient.addColorStop(0.92, "#8da3ad");
+        gradient.addColorStop(1, "#e0eaed");
 
-        c.shadowColor = "#40565d66";
+        c.shadowColor = "#435d6966";
         c.shadowBlur = size * 0.035;
         c.shadowOffsetY = size * 0.025;
 
@@ -212,61 +443,85 @@ function makeSprite(size, popped) {
         c.shadowBlur = 0;
         c.shadowOffsetY = 0;
 
-        c.strokeStyle = "#778d9688";
+        c.strokeStyle = "#7b919b88";
         c.lineWidth = 1;
         c.stroke();
 
-        // Transparenter Schweißrand
+        // Schweißrand der Folie
+
         c.beginPath();
-        c.ellipse(0, 0, r * 0.88, r * 0.86,
-                  0, 0, Math.PI * 2);
-        c.strokeStyle = "#ffffff88";
+
+        c.ellipse(
+            0, 0,
+            r * 0.88,
+            r * 0.86,
+            0, 0, Math.PI * 2
+        );
+
+        c.strokeStyle = "#ffffff99";
         c.stroke();
 
         // Lichtreflexion
+
         c.beginPath();
+
         c.ellipse(
-            -r * 0.34, -r * 0.43,
-            r * 0.37, r * 0.15,
-            -0.55, 0, Math.PI * 2
+            -r * 0.32,
+            -r * 0.42,
+            r * 0.36,
+            r * 0.15,
+            -0.55,
+            0, Math.PI * 2
         );
 
         c.fillStyle = "#ffffffdd";
         c.fill();
 
+        // Unterer Glanzrand
+
         c.beginPath();
-        c.arc(0, 0, r * 0.78, 0.2, 1.3);
-        c.strokeStyle = "#ffffff99";
-        c.lineWidth = size * 0.025;
+
+        c.arc(
+            0, 0,
+            r * 0.78,
+            0.2, 1.3
+        );
+
+        c.strokeStyle = "#ffffff88";
+        c.lineWidth = size * 0.022;
         c.stroke();
 
     } else {
 
-        // Flache, zerknitterte Folie
+        // Zerdrückte, zerknitterte Folie
+
         const gradient = c.createRadialGradient(
-            0, 0, 0, 0, 0, r
+            0, 0, 0,
+            0, 0, r
         );
 
-        gradient.addColorStop(0, "#9aabb2");
-        gradient.addColorStop(0.65, "#c6d3d7");
-        gradient.addColorStop(1, "#afbec4");
+        gradient.addColorStop(0, "#9eafb6");
+        gradient.addColorStop(0.6, "#c9d5da");
+        gradient.addColorStop(1, "#b4c3c9");
 
         c.fillStyle = gradient;
         c.fill();
 
-        c.strokeStyle = "#84989f88";
+        c.strokeStyle = "#879ba388";
         c.lineWidth = 1;
         c.stroke();
 
         c.clip();
 
-        // Zufällige Falten
-        for (let i = 0; i < 17; i++) {
+        // Zufällige Knitterfalten
+
+        for (let i = 0; i < 20; i++) {
 
             const a = random(0, Math.PI * 2);
             const end = random(r * 0.4, r);
 
             c.beginPath();
+
             c.moveTo(
                 random(-r * 0.3, r * 0.3),
                 random(-r * 0.3, r * 0.3)
@@ -286,17 +541,20 @@ function makeSprite(size, popped) {
                 ? "#ffffff99"
                 : "#647b8566";
 
-            c.lineWidth = random(0.5, 1.8);
+            c.lineWidth = random(0.5, 1.6);
+
             c.stroke();
         }
     }
 
-    c.restore();
     return image;
 }
 
+
 function prepareSprites() {
+
     sprites.small = makeSprite(96, false);
+
     sprites.large = makeSprite(192, false);
 
     sprites.flat = Array.from(
@@ -310,14 +568,13 @@ function prepareSprites() {
     );
 }
 
+
 /* ==================================
-   KNACKGERÄUSCHE
-   Vorberechnete Audio-Samples
+   REALISTISCHE KNACKGERÄUSCHE
 ================================== */
 
 let audio;
 let master;
-let compressor;
 let activeSounds = 0;
 
 const samples = {
@@ -325,7 +582,9 @@ const samples = {
     large: []
 };
 
+
 function initAudio() {
+
     if (!audio) {
 
         const AudioClass =
@@ -337,36 +596,51 @@ function initAudio() {
         audio = new AudioClass();
 
         master = audio.createGain();
-        master.gain.value = soundEnabled ? 0.65 : 0;
 
-        compressor = audio.createDynamicsCompressor();
+        master.gain.value =
+            soundEnabled ? 0.6 : 0;
+
+        const compressor =
+            audio.createDynamicsCompressor();
+
         compressor.threshold.value = -12;
         compressor.ratio.value = 6;
 
         master.connect(compressor);
+
         compressor.connect(audio.destination);
 
-        // Geräusche einmal erzeugen und speichern.
+        // Geräusche einmal vorberechnen.
+
         for (let i = 0; i < 12; i++) {
+
             samples.small.push(makeCrack(false));
+
             samples.large.push(makeCrack(true));
         }
     }
 
     if (audio.state === "suspended") {
+
         audio.resume().catch(() => {});
     }
 
     return true;
 }
 
+
 function makeCrack(large) {
 
     const rate = audio.sampleRate;
-    const duration = large ? 0.13 : 0.065;
+
+    const duration = large
+        ? 0.13
+        : 0.065;
 
     const buffer = audio.createBuffer(
-        1, Math.floor(rate * duration), rate
+        1,
+        Math.floor(rate * duration),
+        rate
     );
 
     const data = buffer.getChannelData(0);
@@ -384,14 +658,19 @@ function makeCrack(large) {
     for (let i = 0; i < data.length; i++) {
 
         const t = i / rate;
-        const noise = Math.random() * 2 - 1;
 
-        // Große Polster klingen dumpfer.
-        const smoothing = large ? 0.38 : 0.85;
+        const noise =
+            Math.random() * 2 - 1;
 
-        previous += smoothing * (noise - previous);
+        const smoothing = large
+            ? 0.38
+            : 0.85;
 
-        const attack = Math.min(1, t / 0.0002);
+        previous +=
+            smoothing * (noise - previous);
+
+        const attack =
+            Math.min(1, t / 0.0002);
 
         const crack =
             previous *
@@ -407,7 +686,9 @@ function makeCrack(large) {
             (large ? 0.45 : 0.12);
 
         const rustle =
-            noise * Math.exp(-t / 0.025) * 0.045;
+            noise *
+            Math.exp(-t / 0.025) *
+            0.045;
 
         data[i] = crack + thump + rustle;
     }
@@ -415,61 +696,74 @@ function makeCrack(large) {
     return buffer;
 }
 
+
 function playPop(large) {
 
     if (!soundEnabled || !initAudio()) return;
 
-    // Verhindert Audio-Überlastung beim Wischen.
-    if (activeSounds >= 12) return;
+    // Audio-Überlastung vermeiden.
 
-    const list = large ? samples.large : samples.small;
+    if (activeSounds >= 10) return;
+
+    const list = large
+        ? samples.large
+        : samples.small;
 
     const source = audio.createBufferSource();
+
     const gain = audio.createGain();
 
     source.buffer =
         list[Math.floor(Math.random() * list.length)];
 
-    source.playbackRate.value = random(0.9, 1.1);
+    source.playbackRate.value =
+        random(0.9, 1.1);
+
+    // Große Luftpolster sind deutlich lauter.
 
     gain.gain.value = large
         ? random(0.85, 1.05)
         : random(0.25, 0.42);
 
     source.connect(gain);
+
     gain.connect(master);
 
     activeSounds++;
 
     source.onended = () => {
+
         activeSounds--;
+
         source.disconnect();
+
         gain.disconnect();
     };
 
     source.start();
 }
 
+
 /* ==================================
-   ENDLOSE FOLIE
+   ENDLOSE FOLIENROLLE
 ================================== */
 
 function addStrip(y) {
 
-    const rows = 2;
+    const occupied = [
+        Array(columns).fill(false),
+        Array(columns).fill(false)
+    ];
 
-    const occupied = Array.from(
-        { length: rows },
-        () => Array(columns).fill(false)
-    );
-
-    for (let r = 0; r < rows; r++) {
+    for (let r = 0; r < 2; r++) {
 
         for (let c = 0; c < columns; c++) {
 
             if (occupied[r][c]) continue;
 
             let large = false;
+
+            // Zufällig große Luftpolster einbauen.
 
             if (
                 r === 0 &&
@@ -479,6 +773,7 @@ function addStrip(y) {
                 !occupied[1][c + 1] &&
                 Math.random() < 0.17
             ) {
+
                 large = true;
 
                 occupied[0][c + 1] = true;
@@ -488,58 +783,84 @@ function addStrip(y) {
 
             occupied[r][c] = true;
 
-            const size = cell * (large ? 2 : 1);
+            const size =
+                cell * (large ? 2 : 1);
 
             bubbles.push({
+
                 x: c * cell + size / 2,
+
                 y: y + r * cell + size / 2,
+
                 size,
+
                 large,
+
                 popped: false,
-                variant: Math.floor(Math.random() * 5)
+
+                variant:
+                    Math.floor(Math.random() * 5)
             });
         }
     }
 }
 
+
 function resize() {
 
     width = area.clientWidth;
+
     height = area.clientHeight;
 
-    // ECO nutzt eine geringere Renderauflösung.
-    const resolution = eco
-        ? 1
-        : Math.min(window.devicePixelRatio || 1, 1.5);
+    if (width < 1 || height < 1) return;
 
-    canvas.width = Math.max(1, Math.round(width * resolution));
-    canvas.height = Math.max(1, Math.round(height * resolution));
+    // Niedrige, ressourcenschonende Auflösung.
 
-    ctx.setTransform(resolution, 0, 0, resolution, 0, 0);
+    canvas.width = width;
 
-    columns = Math.max(4, Math.floor(width / 54));
+    canvas.height = height;
+
+    columns = Math.max(
+        4,
+        Math.floor(width / 54)
+    );
+
     cell = width / columns;
 
     bubbles = [];
 
-    for (let y = -cell * 2; y < height + cell * 2;
-         y += cell * 2) {
+    for (
+        let y = -cell * 2;
+        y < height + cell * 2;
+        y += cell * 2
+    ) {
 
         addStrip(y);
     }
 
     nextY = -cell * 2;
+
     dirty = true;
 
     draw();
 }
 
+
+/* ==================================
+   FOLIE ZEICHNEN
+================================== */
+
 function draw() {
 
-    ctx.fillStyle = "#b4c3c8";
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = "#b8c7cc";
+
+    ctx.fillRect(
+        0, 0, width, height
+    );
 
     for (const b of bubbles) {
+
+        // Unsichtbare Polster nicht zeichnen.
 
         if (
             b.y + b.size / 2 < 0 ||
@@ -549,10 +870,13 @@ function draw() {
         let sprite;
 
         if (b.popped) {
+
             sprite = b.large
                 ? sprites.flatLarge[b.variant]
                 : sprites.flat[b.variant];
+
         } else {
+
             sprite = b.large
                 ? sprites.large
                 : sprites.small;
@@ -570,8 +894,9 @@ function draw() {
     dirty = false;
 }
 
+
 /* ==================================
-   MAUS UND TOUCH
+   LUFTPOLSTER ZERDRÜCKEN
 ================================== */
 
 function popAt(x, y) {
@@ -581,28 +906,50 @@ function popAt(x, y) {
         if (b.popped) continue;
 
         const dx = x - b.x;
+
         const dy = y - b.y;
+
         const radius = b.size * 0.46;
 
-        if (dx * dx + dy * dy <= radius * radius) {
+        if (
+            dx * dx + dy * dy
+            <= radius * radius
+        ) {
 
             b.popped = true;
+
+            totalPops++;
+
+            statsDirty = true;
+
             dirty = true;
 
             playPop(b.large);
+
             return;
         }
     }
 }
 
+
+/* ==================================
+   MAUS UND TOUCH
+   MIT WISCHFUNKTION
+================================== */
+
 function position(e) {
-    const rect = canvas.getBoundingClientRect();
+
+    const rect =
+        canvas.getBoundingClientRect();
 
     return {
+
         x: e.clientX - rect.left,
+
         y: e.clientY - rect.top
     };
 }
+
 
 canvas.addEventListener("pointerdown", e => {
 
@@ -615,10 +962,12 @@ canvas.addEventListener("pointerdown", e => {
     const p = position(e);
 
     pointers.set(e.pointerId, p);
+
     canvas.setPointerCapture(e.pointerId);
 
     popAt(p.x, p.y);
 });
+
 
 canvas.addEventListener("pointermove", e => {
 
@@ -629,6 +978,7 @@ canvas.addEventListener("pointermove", e => {
     const p = position(e);
 
     const dx = p.x - old.x;
+
     const dy = p.y - old.y;
 
     const steps = Math.max(
@@ -636,10 +986,15 @@ canvas.addEventListener("pointermove", e => {
         Math.ceil(Math.hypot(dx, dy) / 12)
     );
 
+    // Auch bei schnellem Wischen
+    // die Luftpolster dazwischen zerdrücken.
+
     for (let i = 1; i <= steps; i++) {
 
         popAt(
+
             old.x + dx * i / steps,
+
             old.y + dy * i / steps
         );
     }
@@ -647,18 +1002,35 @@ canvas.addEventListener("pointermove", e => {
     pointers.set(e.pointerId, p);
 });
 
+
 function release(e) {
+
     pointers.delete(e.pointerId);
 }
 
-canvas.addEventListener("pointerup", release);
-canvas.addEventListener("pointercancel", release);
-canvas.addEventListener("lostpointercapture", release);
 
-window.addEventListener("blur", () => pointers.clear());
+canvas.addEventListener(
+    "pointerup", release
+);
+
+canvas.addEventListener(
+    "pointercancel", release
+);
+
+canvas.addEventListener(
+    "lostpointercapture", release
+);
+
+
+window.addEventListener("blur", () => {
+
+    pointers.clear();
+});
+
 
 /* ==================================
    RESSOURCENSCHONENDE ANIMATION
+   MAXIMAL 30 FPS
 ================================== */
 
 function animate(time) {
@@ -666,58 +1038,77 @@ function animate(time) {
     requestAnimationFrame(animate);
 
     if (document.hidden) {
+
         lastFrame = time;
+
         return;
     }
 
-    const interval = eco ? 1000 / 30 : 1000 / 60;
     const elapsed = time - lastFrame;
 
-    if (elapsed < interval - 1) return;
+    if (elapsed < 1000 / 30 - 1) return;
 
-    const dt = Math.min(elapsed / 1000, 0.1);
+    const dt = Math.min(
+        elapsed / 1000,
+        0.1
+    );
 
     lastFrame = time;
 
-    const movement = Number(speed.value) * dt;
+    const movement =
+        Number(speed.value) * dt;
 
     if (movement > 0) {
 
+        // Folie bewegt sich nach unten.
+
         for (const b of bubbles) {
+
             b.y += movement;
         }
 
         nextY += movement;
 
-        // Unsichtbare Luftpolster sofort entfernen.
+        // Alte Luftpolster entfernen.
+
         bubbles = bubbles.filter(
+
             b => b.y - b.size / 2 < height
         );
 
         // Neue Folie von oben nachschieben.
+
         while (nextY >= 0) {
 
             nextY -= cell * 2;
+
             addStrip(nextY);
         }
 
         dirty = true;
     }
 
+    // Auch bei stillstehendem Finger
+    // vorbeikommende Polster zerdrücken.
+
     for (const p of pointers.values()) {
+
         popAt(p.x, p.y);
     }
 
-    // Bei Stillstand nur zeichnen,
-    // wenn sich wirklich etwas verändert hat.
     if (dirty) draw();
+
+    if (statsDirty) updateStats();
 }
 
+
 /* ==================================
-   BEDIENELEMENTE
+   TON EIN UND AUS
 ================================== */
 
-const soundButton = document.getElementById("sound");
+const soundButton =
+    document.getElementById("sound");
+
 
 soundButton.addEventListener("click", () => {
 
@@ -727,65 +1118,94 @@ soundButton.addEventListener("click", () => {
         soundEnabled ? "🔊" : "🔇";
 
     soundButton.setAttribute(
+        "aria-pressed",
+        String(soundEnabled)
+    );
+
+    soundButton.setAttribute(
         "aria-label",
-        soundEnabled ? "Ton ausschalten" : "Ton einschalten"
+        soundEnabled
+            ? "Ton ausschalten"
+            : "Ton einschalten"
     );
 
     if (soundEnabled) initAudio();
 
     if (master) {
+
         master.gain.setTargetAtTime(
-            soundEnabled ? 0.65 : 0,
+
+            soundEnabled ? 0.6 : 0,
+
             audio.currentTime,
+
             0.005
         );
     }
 });
 
-document.getElementById("eco")
-    .addEventListener("click", function() {
 
-        eco = !eco;
+/* ==================================
+   VOLLBILDMODUS
+================================== */
 
-        this.classList.toggle("active", eco);
-        this.setAttribute("aria-pressed", String(eco));
+const full =
+    document.getElementById("fullscreen");
 
-        document.getElementById("mode").textContent =
-            eco ? "ECO · 30 FPS" : "HD · 60 FPS";
-
-        resize();
-    });
-
-const full = document.getElementById("fullscreen");
 
 if (!document.documentElement.requestFullscreen) {
+
     full.hidden = true;
 }
+
 
 full.addEventListener("click", async () => {
 
     try {
+
         if (!document.fullscreenElement) {
-            await document.documentElement.requestFullscreen();
+
+            await document.documentElement
+                .requestFullscreen();
+
         } else {
+
             await document.exitFullscreen();
         }
+
     } catch (e) {}
 });
 
+
+/* ==================================
+   FENSTERGRÖSSE ANPASSEN
+================================== */
+
 let resizeTimer;
 
+
 window.addEventListener("resize", () => {
+
     clearTimeout(resizeTimer);
+
     resizeTimer = setTimeout(resize, 150);
 });
 
+
+/* ==================================
+   START
+================================== */
+
 prepareSprites();
+
 resize();
+
+updateStats();
 
 lastFrame = performance.now();
 
 requestAnimationFrame(animate);
+
 </script>
 
 </body>
