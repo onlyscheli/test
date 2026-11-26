@@ -2,67 +2,73 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bubble Pop 98</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Luftpolsterfolie</title>
 
 <style>
+
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
-body {
+html, body {
     margin: 0;
-    min-height: 100dvh;
-    background: #008080;
-    font-family: "Courier New", monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 12px;
-    user-select: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
 }
 
-.window {
-    width: 100%;
-    max-width: 780px;
+body {
+    background: #008080;
+    font-family: Tahoma, Arial, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    position: relative;
+    z-index: 100;
     background: #c0c0c0;
-    padding: 5px;
     border: 3px solid;
     border-color: white #404040 #404040 white;
-    box-shadow: 7px 7px 0 #0004;
+    padding: 4px;
+    flex-shrink: 0;
 }
 
 .titlebar {
-    background: linear-gradient(90deg, #000080, #1084d0);
+    background: linear-gradient(
+        90deg, #000080, #1084d0
+    );
     color: white;
-    padding: 10px;
+    font-size: 16px;
     font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 9px 12px;
 }
 
 .toolbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 10px;
-    padding: 12px 5px;
+    justify-content: space-between;
+    padding: 8px;
+    gap: 12px;
 }
 
 button {
-    font-family: inherit;
     cursor: pointer;
+    font-family: inherit;
 }
 
 .retro-button {
     background: #c0c0c0;
     border: 3px solid;
     border-color: white #404040 #404040 white;
-    padding: 8px 12px;
-    font-weight: bold;
-    color: black;
+    min-width: 44px;
+    min-height: 38px;
+    font-size: 19px;
     touch-action: manipulation;
 }
 
@@ -70,515 +76,831 @@ button {
     border-color: #404040 white white #404040;
 }
 
-.intro {
-    text-align: center;
-    padding: 5px 10px 15px;
-}
-
-h1 {
-    font-size: clamp(23px, 5vw, 38px);
-    margin: 8px 0;
-    letter-spacing: -2px;
-    color: #000080;
-    text-shadow: 2px 2px white;
-}
-
-.intro p {
+.speed-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 12px;
-    margin: 5px 0;
 }
 
-.counter {
-    background: #111;
-    color: #39ff14;
-    padding: 8px 10px;
-    font-weight: bold;
-    font-size: 14px;
-    border: 2px inset #ddd;
+input[type="range"] {
+    width: clamp(65px, 24vw, 180px);
+    accent-color: #000080;
 }
 
-.foil {
+#viewport {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    touch-action: none;
+    cursor: crosshair;
+    background: #9ca9ad;
+}
+
+#foil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    will-change: transform;
+}
+
+.sheet {
+    position: absolute;
+    left: 0;
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: 7px;
-    padding: 12px;
+    gap: 4px;
+    padding: 4px;
+
     background:
         repeating-linear-gradient(
-            45deg,
-            #ffffff30 0px,
-            #ffffff30 1px,
-            transparent 1px,
-            transparent 5px
+            117deg,
+            transparent 0px,
+            #ffffff15 2px,
+            transparent 4px,
+            transparent 37px
         ),
-        linear-gradient(135deg, #b5c8ce, #eef5f5, #9baeb6);
-    border: 3px inset #ddd;
+        repeating-linear-gradient(
+            23deg,
+            transparent 0px,
+            #45565d15 1px,
+            transparent 3px,
+            transparent 51px
+        ),
+        linear-gradient(
+            110deg,
+            #b0bec3,
+            #e1e9eb 25%,
+            #acb9bd 48%,
+            #dce5e8 75%,
+            #a1afb5
+        );
 }
 
 .bubble {
     position: relative;
-    width: 100%;
-    aspect-ratio: 1;
+    min-width: 0;
+    min-height: 0;
     padding: 0;
-    border-radius: 50%;
-    border: 1px solid #82949b;
+    border-radius: 49% 51% 48% 52%;
+    border: 1px solid #687d8580;
+    outline: none;
+    touch-action: none;
+
     background:
         radial-gradient(
-            ellipse at 30% 22%,
+            ellipse at 28% 20%,
             #ffffff 0%,
-            #ffffffbb 10%,
-            transparent 32%
+            #ffffffdd 5%,
+            #ffffff44 13%,
+            transparent 27%
         ),
         radial-gradient(
-            circle at 42% 35%,
-            #eefbff 0%,
-            #c9dce2 45%,
-            #a2b6bf 75%,
-            #70868f 100%
+            ellipse at 73% 77%,
+            #ffffff88 0%,
+            transparent 26%
+        ),
+        radial-gradient(
+            circle at 44% 39%,
+            #f2fafb66 0%,
+            #e0ebee55 38%,
+            #a4b8c066 65%,
+            #647e8999 85%,
+            #ffffffbb 97%
         );
+
     box-shadow:
-        inset 2px 3px 5px #fff,
-        inset -4px -5px 8px #50636b66,
-        2px 4px 5px #40515b55;
-    transition: transform 0.12s, box-shadow 0.12s;
-    touch-action: manipulation;
+        inset 1px 2px 3px #ffffff,
+        inset -3px -4px 7px #3d535d55,
+        1px 2px 3px #354b5355;
 }
 
 .bubble::before {
     content: "";
     position: absolute;
     inset: 5%;
+    border-radius: inherit;
+    border: 1px solid #ffffff99;
+    pointer-events: none;
+}
+
+.bubble::after {
+    content: "";
+    position: absolute;
+    left: 12%;
+    top: 10%;
+    width: 45%;
+    height: 24%;
     border-radius: 50%;
+    border-top: 2px solid #ffffffbb;
+    transform: rotate(-30deg);
+    pointer-events: none;
+}
+
+.bubble.large {
+    border-width: 2px;
+
+    box-shadow:
+        inset 2px 4px 6px #ffffffdd,
+        inset -5px -7px 13px #3d535d66,
+        2px 4px 6px #354b5355;
+}
+
+.bubble.popped {
+    cursor: default;
+    border: 1px solid #81939866;
+
+    background:
+        repeating-conic-gradient(
+            from 23deg at 43% 55%,
+            #ffffff66 0deg,
+            #60747c44 4deg,
+            transparent 9deg,
+            transparent 35deg
+        ),
+        repeating-conic-gradient(
+            from 15deg at 70% 35%,
+            transparent 0deg,
+            #ffffff55 7deg,
+            #52697133 12deg,
+            transparent 21deg
+        ),
+        radial-gradient(
+            ellipse at 45% 55%,
+            #a2b0b6,
+            #c8d3d7 60%,
+            #aebdc2
+        );
+
+    box-shadow:
+        inset 2px 3px 6px #455d6344,
+        inset -2px -2px 4px #ffffff88;
+
+    animation: collapse 0.13s ease-out;
+}
+
+.bubble.popped::before {
+    inset: 13% 19% 21% 12%;
+    border-radius: 25% 60% 40% 70%;
+    border: 1px solid #657d8555;
+    transform: rotate(-13deg);
+}
+
+.bubble.popped::after {
+    left: 23%;
+    top: 30%;
+    width: 46%;
+    height: 34%;
     border: 1px solid #ffffff88;
+    border-radius: 10% 65% 20% 50%;
+    transform: rotate(32deg);
+}
+
+@keyframes collapse {
+    0% {
+        transform: scale(1);
+    }
+    35% {
+        transform: scale(0.85);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .bubble:focus-visible {
     outline: 2px dashed navy;
-    outline-offset: 2px;
+    outline-offset: -4px;
 }
 
-@media (hover: hover) {
-    .bubble:not(.popped):hover {
-        filter: brightness(1.12);
-        transform: scale(1.05);
-    }
-}
-
-.bubble.popped {
-    transform: scale(0.89);
-    background:
-        repeating-conic-gradient(
-            from 20deg,
-            #ffffff55 0deg,
-            #7b929733 15deg,
-            transparent 35deg,
-            #ffffff66 50deg
-        ),
-        radial-gradient(
-            circle,
-            #a5b5bb,
-            #c7d5d9 55%,
-            #879ca5 100%
-        );
-    box-shadow:
-        inset 2px 3px 8px #455b6266,
-        inset -2px -2px 3px white;
-    border: 1px dashed #8a9ca3;
-}
-
-.bubble.popped::before {
-    inset: 25%;
-    border-radius: 25% 60% 35% 50%;
-    border: 1px solid #778c9366;
-}
-
-.pop-text {
+.edge-shadow {
     position: absolute;
-    z-index: 5;
-    top: 20%;
-    left: 50%;
+    inset: 0;
+    z-index: 10;
     pointer-events: none;
-    color: #000080;
-    font-size: 17px;
-    font-weight: 900;
-    white-space: nowrap;
-    text-shadow: 1px 1px white;
-    animation: floatUp 0.65s ease-out forwards;
+
+    box-shadow:
+        inset 0 15px 20px -15px #0008,
+        inset 0 -15px 20px -15px #0008,
+        inset 10px 0 15px -10px #0004,
+        inset -10px 0 15px -10px #0004;
 }
 
-@keyframes floatUp {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, 0) scale(0.6);
-    }
-    25% {
-        transform: translate(-50%, -12px) scale(1.3);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -45px) scale(1);
-    }
-}
-
-.bubble.refill {
-    animation: inflate 0.4s ease-out;
-}
-
-@keyframes inflate {
-    0% { transform: scale(0.7); }
-    65% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-.statusbar {
-    margin-top: 8px;
-    border: 2px inset #eee;
-    padding: 7px;
-    font-size: 12px;
+footer {
+    position: relative;
+    z-index: 100;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: white #404040 #404040 white;
+    padding: 6px 10px;
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+    color: #333;
+    font-size: 11px;
     display: flex;
     justify-content: space-between;
-    gap: 5px;
+    gap: 8px;
 }
 
-.footer {
-    text-align: center;
-    font-size: 10px;
-    padding: 12px 0 5px;
-    color: #555;
-}
-
-@media (max-width: 550px) {
-    .foil {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        gap: 5px;
-        padding: 8px;
-    }
-
-    .toolbar {
-        gap: 5px;
-    }
-
-    .retro-button {
-        padding: 7px;
-        font-size: 12px;
-    }
-
-    .counter {
-        font-size: 12px;
-    }
-}
 </style>
 </head>
 
 <body>
 
-<main class="window">
-
+<header>
     <div class="titlebar">
-        <span>▣ Bubble Pop 98.exe</span>
-        <span>_ □</span>
-    </div>
-
-    <div class="intro">
-        <h1>BUBBLE POP '98</h1>
-        <p>THE ULTIMATE STRESS DESTROYER</p>
-        <p>Keine Termine. Keine Aufgaben. Nur Plopp.</p>
+        Luftpolsterfolie
     </div>
 
     <div class="toolbar">
-        <button class="retro-button" id="sound"
-                aria-label="Ton ausschalten"
-                aria-pressed="true">
-            🔊 TON AN
-        </button>
 
-        <div class="counter">
-            POP: <span id="count">000000</span>
+        <button
+            class="retro-button"
+            id="sound"
+            aria-label="Ton ausschalten"
+            aria-pressed="true"
+            title="Ton ein / aus"
+        >🔊</button>
+
+        <div class="speed-control">
+            <label for="speed">Folientempo</label>
+
+            <input
+                id="speed"
+                type="range"
+                min="0"
+                max="100"
+                value="22"
+            >
         </div>
 
-        <button class="retro-button" id="reset">
-            ↻ NEU
-        </button>
+        <button
+            class="retro-button"
+            id="fullscreen"
+            aria-label="Vollbild"
+            title="Vollbild"
+        >⛶</button>
+
     </div>
+</header>
 
-    <div class="foil" id="foil"></div>
+<div id="viewport">
+    <div id="foil"></div>
+    <div class="edge-shadow"></div>
+</div>
 
-    <div class="statusbar">
-        <span id="status">● Bereit zum Ploppen</span>
-        <span>∞ ENDLOS</span>
-    </div>
-
-    <div class="footer">
-        © 1998 BubbleSoft · 100% Stressabbau-Modus
-    </div>
-
-</main>
+<footer>
+    <span>Klicken oder darüberwischen</span>
+    <span>∞ Endlosfolie</span>
+</footer>
 
 <script>
+
+const viewport = document.getElementById("viewport");
 const foil = document.getElementById("foil");
-const counter = document.getElementById("count");
 const soundButton = document.getElementById("sound");
-const status = document.getElementById("status");
+const speedSlider = document.getElementById("speed");
 
-let pops = 0;
 let soundEnabled = true;
-let audioContext;
-let masterGain;
+let audio;
+let master;
+let compressor;
 
-const refillTime = 2500;
-
-const words = [
-    "PLOPP!",
-    "BOING!",
-    "PUFF!",
-    "PIP!",
-    "BLUB!",
-    "PATSCH!",
-    "PÖCK!",
-    "POINK!"
-];
-
-const messages = [
-    "Stress erfolgreich vernichtet!",
-    "Ein Problem weniger.",
-    "Plopp.exe funktioniert!",
-    "Sehr befriedigend ...",
-    "Entspannung wird geladen ...",
-    "Alles easy!",
-    "Therapie für die Finger.",
-    "Bitte weiterploppen!"
-];
+let sheets = [];
+let offset = 0;
+let sheetHeight = 0;
+let lastTime = performance.now();
 
 function random(min, max) {
     return min + Math.random() * (max - min);
 }
 
+/* ==================================
+   REALISTISCHE KNACKGERÄUSCHE
+================================== */
+
 function initAudio() {
-    if (!audioContext) {
+    if (!audio) {
         const AudioClass =
-            window.AudioContext || window.webkitAudioContext;
+            window.AudioContext ||
+            window.webkitAudioContext;
 
         if (!AudioClass) return false;
 
-        audioContext = new AudioClass();
-        masterGain = audioContext.createGain();
-        masterGain.gain.value = soundEnabled ? 0.6 : 0;
-        masterGain.connect(audioContext.destination);
+        audio = new AudioClass();
+
+        master = audio.createGain();
+        master.gain.value = soundEnabled ? 0.65 : 0;
+
+        compressor = audio.createDynamicsCompressor();
+        compressor.threshold.value = -16;
+        compressor.knee.value = 12;
+        compressor.ratio.value = 5;
+        compressor.attack.value = 0.001;
+        compressor.release.value = 0.08;
+
+        master.connect(compressor);
+        compressor.connect(audio.destination);
     }
 
-    if (audioContext.state === "suspended") {
-        audioContext.resume().catch(() => {});
+    if (audio.state === "suspended") {
+        audio.resume().catch(() => {});
     }
 
     return true;
 }
 
-// Kurzes elektronisches Retro-Geräusch
-function tone(start, end, duration, type, volume, delay = 0) {
-    const now = audioContext.currentTime + delay;
+function playCrack(isLarge) {
 
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+    if (!soundEnabled || !initAudio()) return;
 
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(start, now);
-    oscillator.frequency.exponentialRampToValueAtTime(
-        end, now + duration
-    );
+    const now = audio.currentTime;
 
-    gain.gain.setValueAtTime(volume, now);
-    gain.gain.exponentialRampToValueAtTime(
-        0.001, now + duration
-    );
+    const duration = isLarge
+        ? random(0.10, 0.17)
+        : random(0.035, 0.075);
 
-    oscillator.connect(gain);
-    gain.connect(masterGain);
-
-    oscillator.start(now);
-    oscillator.stop(now + duration);
-}
-
-// Knackendes Luftpolster-Geräusch
-function crackle() {
-    const duration = 0.075;
     const length = Math.floor(
-        audioContext.sampleRate * duration
+        audio.sampleRate * duration
     );
 
-    const buffer = audioContext.createBuffer(
-        1, length, audioContext.sampleRate
+    const buffer = audio.createBuffer(
+        1, length, audio.sampleRate
     );
 
     const data = buffer.getChannelData(0);
 
+    const decay = isLarge
+        ? random(0.009, 0.016)
+        : random(0.002, 0.006);
+
+    // Kurzer, harter Folienknall
+    // mit anschließendem Plastikrascheln.
+
     for (let i = 0; i < length; i++) {
-        data[i] =
-            (Math.random() * 2 - 1) *
-            Math.exp(-i / (length * 0.12));
+
+        const t = i / audio.sampleRate;
+        const noise = Math.random() * 2 - 1;
+
+        const attack = Math.min(1, t / 0.0003);
+        const envelope = Math.exp(-t / decay);
+
+        const crack = noise * envelope * attack;
+
+        const rustle =
+            noise *
+            Math.exp(-t / 0.025) *
+            0.055 *
+            (Math.random() > 0.6 ? 1 : 0.15);
+
+        data[i] = crack + rustle;
     }
 
-    const source = audioContext.createBufferSource();
-    const filter = audioContext.createBiquadFilter();
-    const gain = audioContext.createGain();
-
+    const source = audio.createBufferSource();
     source.buffer = buffer;
+
+    const filter = audio.createBiquadFilter();
     filter.type = "lowpass";
-    filter.frequency.value = random(1200, 4000);
-    gain.gain.value = 0.45;
+
+    filter.frequency.value = isLarge
+        ? random(1600, 3200)
+        : random(3500, 8500);
+
+    filter.Q.value = 0.7;
+
+    const volume = audio.createGain();
+
+    volume.gain.value = isLarge
+        ? random(0.95, 1.25)
+        : random(0.28, 0.52);
 
     source.connect(filter);
-    filter.connect(gain);
-    gain.connect(masterGain);
+    filter.connect(volume);
+    volume.connect(master);
 
-    source.start();
+    source.start(now);
+
+    // Tiefer Druckimpuls der platzenden Blase
+
+    const thump = audio.createOscillator();
+    const thumpGain = audio.createGain();
+
+    thump.type = "sine";
+
+    thump.frequency.setValueAtTime(
+        isLarge ? random(140, 220) : random(350, 600),
+        now
+    );
+
+    thump.frequency.exponentialRampToValueAtTime(
+        isLarge ? 45 : 110,
+        now + 0.035
+    );
+
+    thumpGain.gain.setValueAtTime(0.001, now);
+
+    thumpGain.gain.linearRampToValueAtTime(
+        isLarge ? 0.45 : 0.10,
+        now + 0.001
+    );
+
+    thumpGain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 0.065
+    );
+
+    thump.connect(thumpGain);
+    thumpGain.connect(master);
+
+    thump.start(now);
+    thump.stop(now + 0.07);
+
 }
 
-// Acht verschiedene Soundeffekte
-function playPop(type) {
-    if (!soundEnabled || !initAudio()) return;
+/* ==================================
+   LUFTPOLSTERFOLIE ERZEUGEN
+================================== */
 
-    const pitch = random(0.85, 1.15);
+function createSheet(y) {
 
-    switch (type) {
-        case 0:
-            crackle();
-            tone(350 * pitch, 65, 0.09, "sine", 0.4);
-            break;
+    const width = viewport.clientWidth;
 
-        case 1:
-            tone(180, 750 * pitch, 0.12, "triangle", 0.3);
-            tone(750, 110, 0.18, "sine", 0.2, 0.08);
-            break;
+    const columns = Math.max(
+        5,
+        Math.floor(width / 57)
+    );
 
-        case 2:
-            crackle();
-            tone(140, 40, 0.14, "triangle", 0.3);
-            break;
+    const rows = 12;
 
-        case 3:
-            tone(1200 * pitch, 500, 0.08, "square", 0.09);
-            break;
+    const cellSize =
+        (width - 8 - (columns - 1) * 4) / columns;
 
-        case 4:
-            tone(500, 90, 0.13, "sine", 0.4);
-            tone(300, 70, 0.09, "sine", 0.2, 0.06);
-            break;
+    const sheet = document.createElement("div");
+    sheet.className = "sheet";
 
-        case 5:
-            crackle();
-            tone(220, 55, 0.07, "triangle", 0.4);
-            break;
+    sheet.style.gridTemplateColumns =
+        `repeat(${columns}, minmax(0, 1fr))`;
 
-        case 6:
-            tone(800 * pitch, 100, 0.055, "triangle", 0.35);
-            break;
+    sheet.style.gridTemplateRows =
+        `repeat(${rows}, ${cellSize}px)`;
 
-        case 7:
-            tone(400, 1400 * pitch, 0.09, "sine", 0.3);
-            tone(900, 200, 0.12, "triangle", 0.15, 0.06);
-            break;
+    sheet.style.top = y + "px";
+
+    sheetHeight = rows * (cellSize + 4) + 4;
+
+    const occupied = Array.from(
+        { length: rows },
+        () => Array(columns).fill(false)
+    );
+
+    for (let r = 0; r < rows; r++) {
+
+        for (let c = 0; c < columns; c++) {
+
+            if (occupied[r][c]) continue;
+
+            let large = false;
+
+            // Große Luftpolster benötigen 2 x 2 Felder.
+
+            if (
+                Math.random() < 0.13 &&
+                r < rows - 1 &&
+                c < columns - 1 &&
+                !occupied[r][c + 1] &&
+                !occupied[r + 1][c] &&
+                !occupied[r + 1][c + 1]
+            ) {
+                large = true;
+
+                occupied[r][c + 1] = true;
+                occupied[r + 1][c] = true;
+                occupied[r + 1][c + 1] = true;
+            }
+
+            occupied[r][c] = true;
+
+            const bubble = document.createElement("button");
+
+            bubble.type = "button";
+
+            bubble.className = large
+                ? "bubble large"
+                : "bubble";
+
+            bubble.style.gridColumn =
+                `${c + 1} / span ${large ? 2 : 1}`;
+
+            bubble.style.gridRow =
+                `${r + 1} / span ${large ? 2 : 1}`;
+
+            bubble.style.borderRadius =
+                `${random(46, 52)}% ${random(46, 52)}%
+                 ${random(46, 52)}% ${random(46, 52)}%`;
+
+            bubble.setAttribute(
+                "aria-label",
+                large
+                    ? "Großes Luftpolster"
+                    : "Luftpolster"
+            );
+
+            bubble.addEventListener("click", e => {
+                if (e.detail === 0) {
+                    popBubble(bubble);
+                }
+            });
+
+            sheet.appendChild(bubble);
+        }
     }
+
+    foil.appendChild(sheet);
+
+    return {
+        element: sheet,
+        y: y
+    };
 }
+
+/* ==================================
+   LUFTPOLSTER ZERDRÜCKEN
+================================== */
 
 function popBubble(bubble) {
+
+    if (!bubble) return;
+
     if (bubble.classList.contains("popped")) return;
 
-    bubble.classList.remove("refill");
+    const large = bubble.classList.contains("large");
+
     bubble.classList.add("popped");
-    bubble.setAttribute("aria-label", "Zerdrücktes Luftpolster");
 
-    pops++;
-    counter.textContent = String(pops).padStart(6, "0");
+    bubble.setAttribute(
+        "aria-label",
+        "Zerdrücktes Luftpolster"
+    );
 
-    const type = Math.floor(Math.random() * words.length);
-
-    playPop(type);
-
-    // Lustiger Plopp-Schriftzug
-    const text = document.createElement("span");
-    text.className = "pop-text";
-    text.textContent = words[type];
-    bubble.appendChild(text);
-
-    setTimeout(() => text.remove(), 650);
-
-    status.textContent = "● " + messages[type];
-
-    // Kurze Vibration auf unterstützten Handys
-    if (navigator.vibrate) {
-        navigator.vibrate(12);
-    }
-
-    // Luftpolster automatisch wieder aufblasen
-    setTimeout(() => {
-        if (!bubble.isConnected) return;
-
-        bubble.classList.remove("popped");
-        bubble.classList.add("refill");
-        bubble.setAttribute("aria-label", "Luftpolster zerdrücken");
-
-        setTimeout(() => {
-            bubble.classList.remove("refill");
-        }, 400);
-
-    }, refillTime + random(0, 800));
+    playCrack(large);
 }
 
-function createFoil() {
+function popAt(x, y) {
+
+    const element = document.elementFromPoint(x, y);
+
+    if (!element) return;
+
+    const bubble = element.closest(".bubble");
+
+    if (bubble && foil.contains(bubble)) {
+        popBubble(bubble);
+    }
+}
+
+/* ==================================
+   WISCHFUNKTION
+================================== */
+
+const pointers = new Map();
+
+viewport.addEventListener("pointerdown", e => {
+
+    if (e.button !== 0) return;
+
+    e.preventDefault();
+
+    if (soundEnabled) initAudio();
+
+    pointers.set(e.pointerId, {
+        x: e.clientX,
+        y: e.clientY
+    });
+
+    viewport.setPointerCapture(e.pointerId);
+
+    popAt(e.clientX, e.clientY);
+});
+
+viewport.addEventListener("pointermove", e => {
+
+    const previous = pointers.get(e.pointerId);
+
+    if (!previous) return;
+
+    e.preventDefault();
+
+    const x = e.clientX;
+    const y = e.clientY;
+
+    const dx = x - previous.x;
+    const dy = y - previous.y;
+
+    const distance = Math.hypot(dx, dy);
+
+    // Auch bei schnellem Wischen keine
+    // Luftpolster zwischen den Punkten überspringen.
+
+    const steps = Math.max(
+        1,
+        Math.ceil(distance / 7)
+    );
+
+    for (let i = 1; i <= steps; i++) {
+
+        const progress = i / steps;
+
+        popAt(
+            previous.x + dx * progress,
+            previous.y + dy * progress
+        );
+    }
+
+    pointers.set(e.pointerId, { x, y });
+
+});
+
+function releasePointer(e) {
+    pointers.delete(e.pointerId);
+}
+
+viewport.addEventListener("pointerup", releasePointer);
+viewport.addEventListener("pointercancel", releasePointer);
+viewport.addEventListener("lostpointercapture", releasePointer);
+
+window.addEventListener("blur", () => {
+    pointers.clear();
+});
+
+/* ==================================
+   ENDLOSE FOLIENROLLE
+================================== */
+
+function buildFoil() {
+
     foil.innerHTML = "";
 
-    for (let i = 0; i < 48; i++) {
-        const bubble = document.createElement("button");
+    sheets = [];
+    offset = 0;
 
-        bubble.className = "bubble";
-        bubble.type = "button";
-        bubble.setAttribute(
-            "aria-label", "Luftpolster zerdrücken"
-        );
+    const first = createSheet(0);
 
-        // Maus, Touch und Stift
-        bubble.addEventListener("pointerdown", event => {
-            if (event.button !== 0) return;
-            popBubble(bubble);
-        });
+    sheets.push(first);
 
-        // Auch mit der Tastatur bedienbar
-        bubble.addEventListener("click", event => {
-            if (event.detail === 0) {
-                popBubble(bubble);
-            }
-        });
+    let y = sheetHeight;
 
-        foil.appendChild(bubble);
+    while (y < viewport.clientHeight + sheetHeight) {
+        sheets.push(createSheet(y));
+        y += sheetHeight;
     }
+
+    sheets.unshift(createSheet(-sheetHeight));
+
+    foil.style.transform = "translate3d(0,0,0)";
 }
 
+function animate(time) {
+
+    const delta = Math.min(
+        (time - lastTime) / 1000,
+        0.05
+    );
+
+    lastTime = time;
+
+    const speed = Number(speedSlider.value);
+
+    // Die Folie läuft von oben nach unten.
+
+    offset += speed * delta;
+
+    // Unten verschwundene Folienstücke entfernen.
+
+    while (
+        sheets.length &&
+        sheets[sheets.length - 1].y + offset >
+        viewport.clientHeight + sheetHeight
+    ) {
+        const old = sheets.pop();
+        old.element.remove();
+    }
+
+    // Von oben immer neue Folie nachschieben.
+
+    while (
+        sheets.length &&
+        sheets[0].y + offset > -sheetHeight
+    ) {
+
+        const newY = sheets[0].y - sheetHeight;
+
+        sheets.unshift(createSheet(newY));
+    }
+
+    // Koordinaten regelmäßig normalisieren.
+
+    if (offset > 5000) {
+
+        for (const sheet of sheets) {
+            sheet.y += offset;
+            sheet.element.style.top = sheet.y + "px";
+        }
+
+        offset = 0;
+    }
+
+    foil.style.transform =
+        `translate3d(0, ${offset}px, 0)`;
+
+    // Finger oder Maus können auch stillstehen,
+    // während die Folie darunter weiterläuft.
+
+    for (const point of pointers.values()) {
+        popAt(point.x, point.y);
+    }
+
+    requestAnimationFrame(animate);
+}
+
+/* ==================================
+   TON EIN / AUS
+================================== */
+
 soundButton.addEventListener("click", () => {
+
     soundEnabled = !soundEnabled;
 
     soundButton.textContent =
-        soundEnabled ? "🔊 TON AN" : "🔇 TON AUS";
+        soundEnabled ? "🔊" : "🔇";
 
     soundButton.setAttribute(
-        "aria-pressed", String(soundEnabled)
+        "aria-pressed",
+        String(soundEnabled)
     );
 
     soundButton.setAttribute(
         "aria-label",
-        soundEnabled ? "Ton ausschalten" : "Ton einschalten"
+        soundEnabled
+            ? "Ton ausschalten"
+            : "Ton einschalten"
     );
 
-    if (masterGain) {
-        masterGain.gain.value = soundEnabled ? 0.6 : 0;
+    if (soundEnabled) initAudio();
+
+    if (master) {
+        master.gain.setTargetAtTime(
+            soundEnabled ? 0.65 : 0,
+            audio.currentTime,
+            0.005
+        );
     }
 });
 
-document.getElementById("reset")
-    .addEventListener("click", () => {
-        createFoil();
-        status.textContent = "● Frische Luftpolsterfolie!";
-    });
+/* ==================================
+   VOLLBILDMODUS
+================================== */
 
-createFoil();
+const fullscreenButton =
+    document.getElementById("fullscreen");
+
+if (!document.documentElement.requestFullscreen) {
+    fullscreenButton.hidden = true;
+}
+
+fullscreenButton.addEventListener("click", async () => {
+
+    try {
+
+        if (!document.fullscreenElement) {
+            await document.documentElement.requestFullscreen();
+        } else {
+            await document.exitFullscreen();
+        }
+
+    } catch (error) {
+        console.log("Vollbild nicht verfügbar.");
+    }
+});
+
+/* ==================================
+   START
+================================== */
+
+let resizeTimer;
+
+window.addEventListener("resize", () => {
+
+    clearTimeout(resizeTimer);
+
+    resizeTimer = setTimeout(buildFoil, 180);
+
+});
+
+buildFoil();
+
+requestAnimationFrame(animate);
+
 </script>
 
 </body>
